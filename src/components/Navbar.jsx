@@ -88,19 +88,21 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Mobile */}
-          <button
-            className="sm:hidden p-2 rounded-lg text-zinc-400 hover:bg-zinc-50 transition-colors"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            {menuOpen
-              ? <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-              : <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M4 6h16M4 12h16M4 18h16" /></svg>
-            }
-          </button>
+          {/* Mobile hamburger — solo si NO está logueado (logueados usan bottom nav) */}
+          {!user && (
+            <button
+              className="sm:hidden p-2 rounded-lg text-zinc-400 hover:bg-zinc-50 transition-colors"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              {menuOpen
+                ? <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                : <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M4 6h16M4 12h16M4 18h16" /></svg>
+              }
+            </button>
+          )}
         </div>
 
-        {menuOpen && (
+        {menuOpen && !user && (
           <div className="sm:hidden border-t border-zinc-50 py-4 flex flex-col gap-3 pb-5">
             <Link to="/empleadas" onClick={() => setMenuOpen(false)} className="text-sm font-medium text-zinc-700 px-1">Ver empleadas</Link>
             {user ? (
