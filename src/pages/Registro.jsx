@@ -29,12 +29,11 @@ function ToggleMulti({ options, selected, onChange }) {
   )
 }
 
-// ── Pantalla para empleadas: redirige a Google Form ──────────────────────────
+// ── Pantalla para empleadas: redirige a Google Form + login con Google ────────
 function EmpleadaGoogleForm() {
   return (
     <div className="min-h-[calc(100vh-56px)] flex items-center justify-center px-4 py-12 bg-zinc-50">
       <div className="w-full max-w-md text-center">
-        {/* Icono */}
         <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
           <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -43,14 +42,14 @@ function EmpleadaGoogleForm() {
 
         <h1 className="text-2xl font-bold text-zinc-900 tracking-tight mb-2">Registrate como empleada</h1>
         <p className="text-zinc-500 text-sm mb-8 leading-relaxed max-w-xs mx-auto">
-          Para crear tu perfil en Kasei, completá nuestro formulario. Te contactamos en menos de 24 hs.
+          Completá el formulario con tu CV y luego ingresá con Google para ver tu perfil.
         </p>
 
         {/* Steps */}
         <div className="bg-white rounded-2xl border border-zinc-100 p-6 mb-6 text-left space-y-4">
           {[
             { n: '1', t: 'Completá el formulario', d: 'Datos personales, experiencia, servicios y referencias.' },
-            { n: '2', t: 'Verificamos tu perfil', d: 'El equipo Kasei revisa tu información en 24 hs.' },
+            { n: '2', t: 'Ingresá con Google', d: 'Creá tu cuenta usando tu Gmail para acceder a tu perfil.' },
             { n: '3', t: 'Tu perfil aparece online', d: 'Las empleadoras ya pueden encontrarte y contactarte.' },
           ].map(({ n, t, d }) => (
             <div key={n} className="flex gap-4 items-start">
@@ -63,17 +62,31 @@ function EmpleadaGoogleForm() {
           ))}
         </div>
 
+        {/* Paso 1: Google Form */}
         <a
           href={GOOGLE_FORM_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn-primary w-full text-base py-3 mb-3 flex items-center justify-center gap-2"
+          className="btn-primary w-full text-base py-3 mb-4 flex items-center justify-center gap-2"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
           </svg>
-          Ir al formulario de registro
+          Paso 1 — Completar formulario CV
         </a>
+
+        {/* Divider */}
+        <div className="flex items-center gap-3 mb-4">
+          <div className="flex-1 h-px bg-zinc-200" />
+          <span className="text-xs text-zinc-400">luego</span>
+          <div className="flex-1 h-px bg-zinc-200" />
+        </div>
+
+        {/* Paso 2: Google login como empleada */}
+        <div className="bg-white rounded-2xl border border-zinc-100 p-4 mb-4">
+          <p className="text-xs text-zinc-500 mb-3">Paso 2 — Ingresá con Google para crear tu cuenta</p>
+          <GoogleBtn label="Registrarme con Google" tipo="empleada" redirectTo="/mi-perfil" />
+        </div>
 
         <p className="text-xs text-zinc-400">
           ¿Ya tenés cuenta?{' '}

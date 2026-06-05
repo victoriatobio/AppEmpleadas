@@ -82,6 +82,7 @@ export function AppProvider({ children }) {
       horariosDisponibles: '',
       experiencia: 0,
       pretension: 0,
+      whatsapp: '',
       habilidades: [],
       referencias: [],
       descripcion: '',

@@ -54,24 +54,19 @@ export default function PerfilCard({ empleada }) {
           </div>
 
           {/* Días */}
-          <div className="flex items-center justify-between">
-            <div className="flex gap-0.5">
-              {DIAS.map(dia => (
-                <span
-                  key={dia}
-                  className={`w-5 h-5 rounded text-[9px] flex items-center justify-center font-semibold ${
-                    empleada.disponibilidad?.[dia]
-                      ? 'bg-blue-100 text-blue-600'
-                      : 'bg-zinc-50 text-zinc-300'
-                  }`}
-                >
-                  {DIAS_LABEL[dia]}
-                </span>
-              ))}
-            </div>
-            <span className="text-xs font-semibold text-zinc-700">
-              ${empleada.pretension?.toLocaleString()}<span className="font-normal text-zinc-400">/mes</span>
-            </span>
+          <div className="flex gap-0.5">
+            {DIAS.map(dia => (
+              <span
+                key={dia}
+                className={`w-5 h-5 rounded text-[9px] flex items-center justify-center font-semibold ${
+                  empleada.disponibilidad?.[dia]
+                    ? 'bg-blue-100 text-blue-600'
+                    : 'bg-zinc-50 text-zinc-300'
+                }`}
+              >
+                {DIAS_LABEL[dia]}
+              </span>
+            ))}
           </div>
         </div>
       </div>

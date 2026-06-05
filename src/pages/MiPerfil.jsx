@@ -203,10 +203,6 @@ export default function MiPerfil() {
                     </div>
                   )}
                 </div>
-                <div>
-                  <label className="label">Pretensión salarial (ARS/mes)</label>
-                  {editing ? <input type="number" name="pretension" value={form.pretension} onChange={handleChange} className="input" /> : <p className="text-stone-700 font-medium text-sm">{user.pretension ? `$${user.pretension.toLocaleString()}` : '—'}</p>}
-                </div>
               </div>
             </div>
 

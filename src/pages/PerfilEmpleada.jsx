@@ -15,9 +15,7 @@ function BackLink() {
 
 export default function PerfilEmpleada() {
   const { id } = useParams()
-  const { users, user, sendMessage } = useApp()
-  const [msg, setMsg] = useState('')
-  const [sent, setSent] = useState(false)
+  const { users, user } = useApp()
   const [showRefs, setShowRefs] = useState(false)
 
   const emp = users.find(u => u.id === id && u.tipo === 'empleada')
@@ -29,14 +27,6 @@ export default function PerfilEmpleada() {
         <Link to="/empleadas" className="text-sm text-blue-600 hover:underline">← Ver empleadas</Link>
       </div>
     )
-  }
-
-  function handleSend(e) {
-    e.preventDefault()
-    if (!msg.trim()) return
-    sendMessage(emp.id, msg.trim())
-    setSent(true)
-    setMsg('')
   }
 
   const isOwn = user?.id === emp.id
@@ -69,9 +59,6 @@ export default function PerfilEmpleada() {
                     </svg>
                     Verificada
                   </span>
-                )}
-                {emp.pretension > 0 && (
-                  <span className="text-sm font-bold text-zinc-900">${emp.pretension.toLocaleString()}<span className="text-zinc-400 font-normal">/mes</span></span>
                 )}
               </div>
             </div>
@@ -170,44 +157,27 @@ export default function PerfilEmpleada() {
               <p className="text-sm text-zinc-400 mb-3">Este es tu perfil</p>
               <Link to="/mi-perfil" className="btn-primary w-full">Editar perfil</Link>
             </div>
-          ) : !user ? (
-            <div className="bg-white rounded-2xl border border-zinc-100 p-5">
-              <p className="font-semibold text-zinc-900 text-sm mb-2">Contactar a {emp.nombre.split(' ')[0]}</p>
-              <p className="text-xs text-zinc-400 mb-4">Necesitás cuenta de empleadora para enviar mensajes.</p>
-              <Link to="/login" className="btn-primary w-full mb-2">Ingresar</Link>
-              <Link to="/registro?rol=empleadora" className="btn-secondary w-full">Registrarse</Link>
-            </div>
-          ) : user.tipo === 'empleada' ? (
-            <div className="bg-zinc-50 rounded-2xl p-5 text-center">
-              <p className="text-xs text-zinc-400">Solo empleadoras pueden contactar.</p>
-            </div>
-          ) : sent ? (
-            <div className="bg-white rounded-2xl border border-zinc-100 p-5 text-center">
-              <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center mx-auto mb-3">
-                <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <p className="font-semibold text-zinc-900 text-sm mb-1">Mensaje enviado</p>
-              <p className="text-xs text-zinc-400 mb-4">{emp.nombre.split(' ')[0]} lo recibirá pronto.</p>
-              <button onClick={() => setSent(false)} className="btn-secondary w-full text-sm mb-2">Enviar otro</button>
-              <Link to="/mensajes" className="block text-center text-sm text-blue-600 hover:underline">Ver mensajes</Link>
-            </div>
           ) : (
             <div className="bg-white rounded-2xl border border-zinc-100 p-5">
               <p className="font-semibold text-zinc-900 text-sm mb-3">
                 Contactar a {emp.nombre.split(' ')[0]}
               </p>
-              <form onSubmit={handleSend} className="space-y-3">
-                <textarea
-                  value={msg}
-                  onChange={e => setMsg(e.target.value)}
-                  className="input resize-none"
-                  placeholder={`Hola ${emp.nombre.split(' ')[0]}, me interesa tu perfil...`}
-                  required rows={5}
-                />
-                <button type="submit" className="btn-primary w-full">Enviar mensaje</button>
-              </form>
+              {emp.whatsapp ? (
+                <a
+                  href={`https://wa.me/${emp.whatsapp.replace(/\D/g, '')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 w-full bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-medium text-sm px-4 py-3 rounded-xl transition-colors"
+                >
+                  <svg className="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                    <path d="M11.923 0C5.344 0 0 5.344 0 11.923c0 2.097.547 4.064 1.504 5.771L0 24l6.455-1.695A11.875 11.875 0 0011.923 23.846C18.502 23.846 24 18.502 24 11.923 24 5.344 18.502 0 11.923 0zm0 21.77a9.84 9.84 0 01-5.018-1.372l-.359-.214-3.724.978 1-3.636-.236-.375A9.847 9.847 0 012.077 11.923c0-5.43 4.416-9.846 9.846-9.846 5.43 0 9.846 4.416 9.846 9.846 0 5.43-4.416 9.847-9.846 9.847z"/>
+                  </svg>
+                  Escribir por WhatsApp
+                </a>
+              ) : (
+                <p className="text-xs text-zinc-400">Esta empleada aún no cargó su WhatsApp.</p>
+              )}
             </div>
           )}
 
@@ -216,9 +186,8 @@ export default function PerfilEmpleada() {
             {[
               { label: 'Experiencia', val: `${emp.experiencia || 0} años` },
               { label: 'Modalidad', val: emp.modalidad },
-              emp.pretension > 0 && { label: 'Pretensión', val: `$${emp.pretension.toLocaleString()}/mes` },
               { label: 'Referencias', val: emp.referencias?.length || 0 },
-            ].filter(Boolean).map(({ label, val }) => (
+            ].map(({ label, val }) => (
               <div key={label} className="flex justify-between items-center py-2 border-b border-zinc-50 last:border-0">
                 <span className="text-xs text-zinc-400">{label}</span>
                 <span className="text-xs font-semibold text-zinc-700">{val}</span>

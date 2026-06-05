@@ -16,6 +16,7 @@ export const mockEmpleadas = [
     descripcion: 'Tengo 5 años de experiencia en limpieza de hogares. Soy ordenada, responsable y me adapto a las necesidades de cada familia. Tengo experiencia con casas grandes y departamentos.',
     habilidades: ['Limpieza profunda', 'Plancha', 'Organización', 'Cuidado de mascotas'],
     pretension: 1800,
+    whatsapp: '+5491155557777',
     referencias: [
       { nombre: 'Laura Martínez', whatsapp: '+54 9 11 1234-5678', relacion: 'Ex empleadora (3 años)' },
       { nombre: 'Claudia Pérez', whatsapp: '+54 9 11 8765-4321', relacion: 'Ex empleadora (1 año)' },
@@ -41,6 +42,7 @@ export const mockEmpleadas = [
     descripcion: 'Experiencia de 8 años en hogares de barrios cerrados. Especializada en cuidado de niños pequeños y cocina. Soy de confianza, prolija y muy comprometida con mi trabajo.',
     habilidades: ['Cocina casera', 'Cuidado de niños', 'Limpieza', 'Repostería'],
     pretension: 2500,
+    whatsapp: '+54 9 11 3333-4444',
     referencias: [
       { nombre: 'Valeria Suárez', whatsapp: '+54 9 11 2345-6789', relacion: 'Ex empleadora (4 años)' },
       { nombre: 'Patricia Gómez', whatsapp: '+54 9 11 9876-5432', relacion: 'Ex empleadora (2 años)' },
@@ -66,6 +68,7 @@ export const mockEmpleadas = [
     descripcion: 'Especializada en cuidado de adultos mayores con 10 años de experiencia. Formada en primeros auxilios y con mucha paciencia y dedicación. También realizo limpieza general.',
     habilidades: ['Cuidado geriátrico', 'Primeros auxilios', 'Cocina dietética', 'Compañía'],
     pretension: 2000,
+    whatsapp: '+54 9 11 4444-5555',
     referencias: [
       { nombre: 'Roberto Fernández', whatsapp: '+54 9 11 3456-7890', relacion: 'Familiar del paciente (5 años)' },
     ],
@@ -90,6 +93,7 @@ export const mockEmpleadas = [
     descripcion: 'Joven con 3 años de experiencia, muy proactiva y con ganas de crecer. Manejo todas las tareas del hogar y cocino muy bien comida casera. Disponible de lunes a viernes.',
     habilidades: ['Limpieza', 'Plancha', 'Cocina casera', 'Orden'],
     pretension: 1500,
+    whatsapp: '+54 9 11 5555-6666',
     referencias: [
       { nombre: 'Marcela Ruiz', whatsapp: '+54 9 11 4567-8901', relacion: 'Ex empleadora (2 años)' },
       { nombre: 'Sandra Díaz', whatsapp: '+54 9 11 5678-9012', relacion: 'Ex empleadora (8 meses)' },
