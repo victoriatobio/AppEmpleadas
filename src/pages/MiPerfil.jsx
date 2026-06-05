@@ -15,6 +15,8 @@ function BackButton() {
 
 const DIAS_LABEL = { lunes: 'Lun', martes: 'Mar', miercoles: 'Mié', jueves: 'Jue', viernes: 'Vie', sabado: 'Sáb', domingo: 'Dom' }
 const SERVICIOS_OPTS = ['Limpieza', 'Plancha', 'Cocina', 'Cuidado de niños', 'Cuidado de adultos mayores', 'Jardinería', 'Compras/mandados']
+const HABILIDADES_OPTS = ['Limpieza profunda', 'Plancha', 'Organización', 'Cocina casera', 'Cuidado de niños', 'Cuidado de mascotas', 'Cuidado geriátrico']
+const MODALIDADES = ['Por horas', 'Cama adentro', 'Cama afuera', 'Cualquiera']
 
 export default function MiPerfil() {
   const { user, updateProfile, logout } = useApp()
@@ -246,40 +248,79 @@ export default function MiPerfil() {
         )}
 
         {user.tipo === 'empleadora' && (
-          <div className="card p-5 mb-4">
-            <h3 className="font-semibold text-stone-700 text-sm uppercase tracking-wide mb-4">Tu hogar</h3>
-            <div className="space-y-4">
-              <div>
-                <label className="label">Zona</label>
-                {editing ? <input name="zona" value={form.zona} onChange={handleChange} className="input" /> : <p className="text-stone-700 text-sm">{user.zona || '—'}</p>}
-              </div>
-              <div>
-                <label className="label">Barrio</label>
-                {editing ? <input name="barrio" value={form.barrio} onChange={handleChange} className="input" /> : <p className="text-stone-700 text-sm">{user.barrio || '—'}</p>}
-              </div>
-              <div>
-                <label className="label">Servicios que buscás</label>
-                {editing ? (
-                  <div className="flex flex-wrap gap-2">
-                    {SERVICIOS_OPTS.map(s => (
-                      <button key={s} type="button" onClick={() => toggleServicio(s, 'serviciosBuscados')}
-                        className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${form.serviciosBuscados.includes(s) ? 'bg-blue-700 text-white border-blue-700' : 'bg-white text-stone-600 border-stone-200'}`}>
-                        {s}
-                      </button>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="flex flex-wrap gap-1.5">
-                    {user.serviciosBuscados?.map(s => <span key={s} className="badge bg-stone-100 text-stone-600">{s}</span>)}
-                  </div>
-                )}
-              </div>
-              <div>
-                <label className="label">Descripción del hogar</label>
-                {editing ? <textarea name="descripcionHogar" value={form.descripcionHogar} onChange={handleChange} className="input resize-y" rows={3} /> : <p className="text-stone-600 text-sm leading-relaxed">{user.descripcionHogar || '—'}</p>}
+          <>
+            {/* Ubicación */}
+            <div className="card p-5 mb-4">
+              <h3 className="font-semibold text-stone-700 text-sm uppercase tracking-wide mb-4">Ubicación</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="label">Zona / Barrio cerrado</label>
+                  {editing
+                    ? <input name="zona" value={form.zona} onChange={handleChange} className="input" placeholder="Ej: Nordelta" />
+                    : <p className="text-stone-700 text-sm">{user.zona || '—'}</p>}
+                </div>
+                <div>
+                  <label className="label">Barrio específico</label>
+                  {editing
+                    ? <input name="barrio" value={form.barrio} onChange={handleChange} className="input" placeholder="Ej: Los Castores" />
+                    : <p className="text-stone-700 text-sm">{user.barrio || '—'}</p>}
+                </div>
               </div>
             </div>
-          </div>
+
+            {/* Qué buscás */}
+            <div className="card p-5 mb-4">
+              <h3 className="font-semibold text-stone-700 text-sm uppercase tracking-wide mb-4">Qué buscás</h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="label">Habilidades requeridas</label>
+                  {editing ? (
+                    <div className="flex flex-wrap gap-2">
+                      {HABILIDADES_OPTS.map(s => (
+                        <button key={s} type="button" onClick={() => toggleServicio(s, 'serviciosBuscados')}
+                          className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${form.serviciosBuscados.includes(s) ? 'bg-blue-700 text-white border-blue-700' : 'bg-white text-stone-600 border-stone-200'}`}>
+                          {s}
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="flex flex-wrap gap-1.5">
+                      {user.serviciosBuscados?.length > 0
+                        ? user.serviciosBuscados.map(s => <span key={s} className="badge bg-blue-50 text-blue-700 border border-blue-100">{s}</span>)
+                        : <p className="text-stone-400 text-sm">Sin especificar</p>}
+                    </div>
+                  )}
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="label">Modalidad</label>
+                    {editing
+                      ? <select name="modalidadBuscada" value={form.modalidadBuscada} onChange={handleChange} className="input">
+                          {MODALIDADES.map(m => <option key={m}>{m}</option>)}
+                        </select>
+                      : <p className="text-stone-700 text-sm">{user.modalidadBuscada || '—'}</p>}
+                  </div>
+                  <div>
+                    <label className="label">Horario</label>
+                    {editing
+                      ? <input name="horariosRequeridos" value={form.horariosRequeridos} onChange={handleChange} className="input" placeholder="Ej: 8:00 – 17:00" />
+                      : <p className="text-stone-700 text-sm">{user.horariosRequeridos || '—'}</p>}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Mi hogar */}
+            <div className="card p-5 mb-4">
+              <h3 className="font-semibold text-stone-700 text-sm uppercase tracking-wide mb-4">Mi hogar</h3>
+              <div>
+                <label className="label">Descripción</label>
+                {editing
+                  ? <textarea name="descripcionHogar" value={form.descripcionHogar} onChange={handleChange} className="input resize-y" rows={3} placeholder="Ej: Casa de 3 ambientes, 2 adultos y 1 niño de 4 años..." />
+                  : <p className="text-stone-600 text-sm leading-relaxed">{user.descripcionHogar || '—'}</p>}
+              </div>
+            </div>
+          </>
         )}
 
         {editing && <button type="submit" className="btn-primary w-full">Guardar cambios</button>}

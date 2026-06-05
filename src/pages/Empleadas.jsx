@@ -2,33 +2,29 @@ import React, { useState, useMemo } from 'react'
 import { useApp } from '../context/AppContext'
 import PerfilCard from '../components/PerfilCard'
 
+const HABILIDADES_OPTS = [
+  'Limpieza profunda', 'Plancha', 'Organización', 'Cocina casera',
+  'Cuidado de niños', 'Cuidado de mascotas', 'Cuidado geriátrico',
+]
+
 export default function Empleadas() {
   const { empleadas } = useApp()
-  const [busqueda, setBusqueda] = useState('')
-  const [modalidadFiltro, setModalidadFiltro] = useState('') // '' | 'cama' | 'retiro'
+  const [habilidadesFiltro, setHabilidadesFiltro] = useState([])
+
+  function toggleHabilidad(h) {
+    setHabilidadesFiltro(prev =>
+      prev.includes(h) ? prev.filter(x => x !== h) : [...prev, h]
+    )
+  }
 
   const resultados = useMemo(() => {
     return empleadas.filter(e => {
-      if (busqueda) {
-        const q = busqueda.toLowerCase()
-        if (
-          !e.nombre.toLowerCase().includes(q) &&
-          !e.zona?.toLowerCase().includes(q) &&
-          !e.barrios?.some(b => b.toLowerCase().includes(q)) &&
-          !e.descripcion?.toLowerCase().includes(q)
-        ) return false
-      }
-      if (modalidadFiltro === 'cama' && e.modalidad !== 'Cama adentro') return false
-      if (modalidadFiltro === 'retiro' && e.modalidad === 'Cama adentro') return false
+      if (habilidadesFiltro.length > 0 && !habilidadesFiltro.some(h => e.habilidades?.includes(h))) return false
       return true
     })
-  }, [empleadas, busqueda, modalidadFiltro])
+  }, [empleadas, habilidadesFiltro])
 
-  const PILLS = [
-    { val: '', label: 'Todas' },
-    { val: 'cama', label: 'Con cama' },
-    { val: 'retiro', label: 'Con retiro' },
-  ]
+  const hasFilters = habilidadesFiltro.length > 0
 
   return (
     <div className="max-w-5xl mx-auto px-5 sm:px-8 py-10">
@@ -43,35 +39,32 @@ export default function Empleadas() {
         </p>
       </div>
 
-      {/* Search */}
-      <div className="relative mb-4">
-        <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-        <input
-          type="text"
-          value={busqueda}
-          onChange={e => setBusqueda(e.target.value)}
-          className="input pl-10"
-          placeholder="Nombre, zona o barrio..."
-        />
-      </div>
-
-      {/* Filtro modalidad */}
-      <div className="flex gap-2 mb-8 flex-wrap">
-        {PILLS.map(({ val, label }) => (
+      {/* Filtro habilidades */}
+      <div className="mb-6">
+        <p className="text-xs text-zinc-400 mb-2 font-medium uppercase tracking-wide">Habilidades</p>
+        <div className="flex flex-wrap gap-2">
+          {HABILIDADES_OPTS.map(h => (
+            <button
+              key={h}
+              onClick={() => toggleHabilidad(h)}
+              className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
+                habilidadesFiltro.includes(h)
+                  ? 'bg-blue-600 text-white border-blue-600'
+                  : 'bg-white text-zinc-600 border-zinc-200 hover:border-blue-300'
+              }`}
+            >
+              {h}
+            </button>
+          ))}
+        </div>
+        {hasFilters && (
           <button
-            key={val}
-            onClick={() => setModalidadFiltro(val)}
-            className={`px-4 py-2 rounded-full text-sm font-medium border transition-all ${
-              modalidadFiltro === val
-                ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-                : 'bg-white text-zinc-600 border-zinc-200 hover:border-blue-300 hover:text-blue-600'
-            }`}
+            onClick={() => setHabilidadesFiltro([])}
+            className="text-xs text-zinc-400 hover:text-red-500 mt-3 transition-colors"
           >
-            {label}
+            Limpiar filtros
           </button>
-        ))}
+        )}
       </div>
 
       {/* Grid */}
@@ -85,7 +78,7 @@ export default function Empleadas() {
           <p className="font-medium text-zinc-600 mb-1">Sin resultados</p>
           <p className="text-sm text-zinc-400 mb-4">Probá con otros términos</p>
           <button
-            onClick={() => { setBusqueda(''); setModalidadFiltro('') }}
+            onClick={() => setHabilidadesFiltro([])}
             className="text-sm text-blue-600 hover:underline"
           >
             Limpiar búsqueda
