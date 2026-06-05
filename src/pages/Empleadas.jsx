@@ -29,13 +29,18 @@ export default function Empleadas() {
   return (
     <div className="max-w-5xl mx-auto px-5 sm:px-8 py-10">
       {/* Header */}
-      <div className="mb-6">
-        <p className="section-label">Explorar</p>
-        <h1 className="text-2xl font-bold text-zinc-900 tracking-tight">
-          Empleadas disponibles
+      <div className="mb-8 text-center">
+        <span className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-600 text-xs font-semibold px-3 py-1 rounded-full mb-4">
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          Explorar
+        </span>
+        <h1 className="text-3xl font-bold text-zinc-900 tracking-tight leading-tight">
+          Empleadas <span className="text-blue-600">disponibles</span>
         </h1>
-        <p className="text-zinc-500 text-sm mt-1">
-          {resultados.length} perfil{resultados.length !== 1 ? 'es' : ''} encontrado{resultados.length !== 1 ? 's' : ''}
+        <p className="text-zinc-400 text-sm mt-2">
+          {resultados.length} perfil{resultados.length !== 1 ? 'es' : ''} en tu zona
         </p>
       </div>
 

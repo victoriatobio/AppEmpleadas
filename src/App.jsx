@@ -11,6 +11,7 @@ import Registro from './pages/Registro'
 import Empleadas from './pages/Empleadas'
 import PerfilEmpleada from './pages/PerfilEmpleada'
 import MiPerfil from './pages/MiPerfil'
+import MisFavoritos from './pages/MisFavoritos'
 
 /* Redirige a /welcome si no hizo el onboarding todavía */
 function OnboardingGate({ children }) {
@@ -42,6 +43,7 @@ function AppShell() {
           <Route path="/empleadas" element={<Empleadas />} />
           <Route path="/empleadas/:id" element={<PerfilEmpleada />} />
           <Route path="/mi-perfil" element={<ProtectedRoute><MiPerfil /></ProtectedRoute>} />
+          <Route path="/favoritos" element={<MisFavoritos />} />
 
           <Route path="*" element={
             <div className="flex items-center justify-center min-h-[60vh] text-zinc-400">

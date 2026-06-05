@@ -1,59 +1,64 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-/* ── Key Mascot helpers ────────────────────────────────────────────────────── */
+/* ─── Mascota Llave Kasei ──────────────────────────────────────────────────── */
 
-/* Shared key body (bow + shaft + teeth) */
+/* Cuerpo compartido de la llave */
 function KeyBody() {
   return (
     <>
-      {/* Shaft */}
-      <rect x="103" y="108" width="34" height="100" rx="10" fill="#3B82F6" stroke="#1D4ED8" strokeWidth="2"/>
-      {/* Teeth */}
-      <rect x="137" y="138" width="15" height="12" rx="3.5" fill="#3B82F6" stroke="#1D4ED8" strokeWidth="1.5"/>
-      <rect x="137" y="156" width="21" height="12" rx="3.5" fill="#3B82F6" stroke="#1D4ED8" strokeWidth="1.5"/>
-      <rect x="137" y="174" width="15" height="12" rx="3.5" fill="#3B82F6" stroke="#1D4ED8" strokeWidth="1.5"/>
-      {/* Bow (head) — drawn last so it's on top of shaft */}
-      <circle cx="120" cy="68" r="46" fill="#3B82F6" stroke="#1D4ED8" strokeWidth="2"/>
-      {/* Hole */}
-      <circle cx="120" cy="68" r="17" fill="white" stroke="#1D4ED8" strokeWidth="2"/>
-      {/* Highlight */}
-      <ellipse cx="108" cy="50" rx="11" ry="7" fill="white" opacity="0.22" transform="rotate(-25 108 50)"/>
+      {/* Varilla (shaft) */}
+      <rect x="109" y="110" width="22" height="106" rx="7" fill="#3B82F6" stroke="#1D4ED8" strokeWidth="1.8"/>
+      {/* Dientes */}
+      <rect x="131" y="140" width="13" height="10" rx="3" fill="#3B82F6" stroke="#1D4ED8" strokeWidth="1.5"/>
+      <rect x="131" y="156" width="19" height="10" rx="3" fill="#3B82F6" stroke="#1D4ED8" strokeWidth="1.5"/>
+      <rect x="131" y="172" width="13" height="10" rx="3" fill="#3B82F6" stroke="#1D4ED8" strokeWidth="1.5"/>
+      {/* Cabeza (bow) — encima para tapar el top de la varilla */}
+      <circle cx="120" cy="66" r="45" fill="#3B82F6" stroke="#1D4ED8" strokeWidth="2"/>
+      {/* Agujero */}
+      <circle cx="120" cy="66" r="16" fill="white" stroke="#1D4ED8" strokeWidth="2"/>
+      {/* Brillo */}
+      <ellipse cx="107" cy="46" rx="11" ry="7" fill="white" opacity="0.22" transform="rotate(-28 107 46)"/>
     </>
   )
 }
 
-/* Shared face */
-function KeyFace({ happy = true }) {
+/* Cara compartida */
+function KeyFace() {
   return (
     <>
-      <circle cx="109" cy="63" r="5" fill="#1E293B"/>
-      <circle cx="131" cy="63" r="5" fill="#1E293B"/>
-      <circle cx="111" cy="61" r="2.2" fill="white"/>
-      <circle cx="133" cy="61" r="2.2" fill="white"/>
-      {happy
-        ? <path d="M108 77 Q120 87 132 77" stroke="#1E293B" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
-        : <path d="M108 76 Q120 83 132 76" stroke="#1E293B" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
-      }
-      <ellipse cx="104" cy="75" rx="6" ry="3.5" fill="#FCA5A5" opacity="0.55"/>
-      <ellipse cx="136" cy="75" rx="6" ry="3.5" fill="#FCA5A5" opacity="0.55"/>
+      {/* Cejas */}
+      <path d="M108 57 Q112 54 117 56" stroke="#1E293B" strokeWidth="1.8" strokeLinecap="round" fill="none"/>
+      <path d="M123 56 Q128 54 132 57" stroke="#1E293B" strokeWidth="1.8" strokeLinecap="round" fill="none"/>
+      {/* Ojos */}
+      <circle cx="111" cy="63" r="4.5" fill="#1E293B"/>
+      <circle cx="129" cy="63" r="4.5" fill="#1E293B"/>
+      {/* Brillo ojos */}
+      <circle cx="113" cy="61" r="1.8" fill="white"/>
+      <circle cx="131" cy="61" r="1.8" fill="white"/>
+      {/* Sonrisa */}
+      <path d="M110 76 Q120 85 130 76" stroke="#1E293B" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
+      {/* Cachetes */}
+      <ellipse cx="106" cy="74" rx="5.5" ry="3.5" fill="#FCA5A5" opacity="0.6"/>
+      <ellipse cx="134" cy="74" rx="5.5" ry="3.5" fill="#FCA5A5" opacity="0.6"/>
     </>
   )
 }
 
-/* Shared legs + shoes */
+/* Piernas y zapatillas compartidas */
 function KeyLegs() {
   return (
     <>
-      <rect x="97" y="206" width="14" height="22" rx="5" fill="#2563EB" stroke="#1D4ED8" strokeWidth="1.5"/>
-      <rect x="115" y="206" width="14" height="22" rx="5" fill="#2563EB" stroke="#1D4ED8" strokeWidth="1.5"/>
-      <rect x="88"  y="223" width="26" height="14" rx="7" fill="white" stroke="#D1D5DB" strokeWidth="1.5"/>
-      <rect x="109" y="223" width="26" height="14" rx="7" fill="white" stroke="#D1D5DB" strokeWidth="1.5"/>
+      <rect x="100" y="213" width="12" height="20" rx="4.5" fill="#2563EB" stroke="#1D4ED8" strokeWidth="1.5"/>
+      <rect x="116" y="213" width="12" height="20" rx="4.5" fill="#2563EB" stroke="#1D4ED8" strokeWidth="1.5"/>
+      {/* Zapatillas */}
+      <rect x="91"  y="229" width="24" height="13" rx="6.5" fill="white" stroke="#D1D5DB" strokeWidth="1.5"/>
+      <rect x="113" y="229" width="24" height="13" rx="6.5" fill="white" stroke="#D1D5DB" strokeWidth="1.5"/>
     </>
   )
 }
 
-/* Arm helper: thick stroke + lighter overlay = 3-D feel */
+/* Brazo genérico con efecto de volumen */
 function Arm({ d }) {
   return (
     <>
@@ -63,82 +68,83 @@ function Arm({ d }) {
   )
 }
 
-/* ── Pose 1: waving ────────────────────────────────────────────────────────── */
+/* ── Pose 1: Saludando con la mano en alto ────────────────────────────────── */
 function KeyWaving() {
   return (
-    <svg viewBox="0 0 240 260" fill="none" className="w-full max-w-[210px] mx-auto">
-      <ellipse cx="120" cy="195" rx="98" ry="58" fill="#EFF6FF"/>
-      <ellipse cx="120" cy="190" rx="75" ry="44" fill="#DBEAFE"/>
+    <svg viewBox="0 0 240 260" fill="none" className="w-full max-w-[200px] mx-auto drop-shadow-sm">
+      {/* Fondo blob */}
+      <ellipse cx="120" cy="200" rx="96" ry="52" fill="#EFF6FF"/>
+      <ellipse cx="120" cy="196" rx="74" ry="40" fill="#DBEAFE"/>
 
-      {/* Left arm — relaxed down */}
-      <Arm d="M104 126 Q80 140 68 162"/>
-      <circle cx="65" cy="166" r="12" fill="white" stroke="#1D4ED8" strokeWidth="1.8"/>
+      {/* Brazo izquierdo — relajado */}
+      <Arm d="M109 124 Q82 140 66 162"/>
+      <circle cx="63" cy="166" r="12" fill="white" stroke="#1D4ED8" strokeWidth="1.8"/>
 
-      {/* Right arm — waving up */}
-      <Arm d="M136 120 Q162 106 172 82"/>
-      <circle cx="174" cy="78" r="12" fill="white" stroke="#1D4ED8" strokeWidth="1.8"/>
-      {/* Wave sparkles */}
-      <path d="M180 66 Q187 58 184 70" stroke="#93C5FD" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
-      <path d="M187 60 Q194 53 190 65" stroke="#93C5FD" strokeWidth="1.8" strokeLinecap="round" fill="none"/>
+      {/* Brazo derecho — saludando arriba */}
+      <Arm d="M131 118 Q160 102 172 78"/>
+      <circle cx="175" cy="74" r="12" fill="white" stroke="#1D4ED8" strokeWidth="1.8"/>
+      {/* Destellos del saludo */}
+      <path d="M181 62 Q188 54 185 66" stroke="#93C5FD" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
+      <path d="M188 56 Q196 48 192 60" stroke="#93C5FD" strokeWidth="1.7" strokeLinecap="round" fill="none"/>
+      <path d="M177 55 Q181 46 183 56" stroke="#BFDBFE" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
 
       <KeyBody />
-      <KeyFace happy />
+      <KeyFace />
       <KeyLegs />
     </svg>
   )
 }
 
-/* ── Pose 2: holding magnifying glass ─────────────────────────────────────── */
+/* ── Pose 2: Con lupa (Buscá) ─────────────────────────────────────────────── */
 function KeySearching() {
   return (
-    <svg viewBox="0 0 240 260" fill="none" className="w-full max-w-[210px] mx-auto">
-      <ellipse cx="120" cy="195" rx="98" ry="58" fill="#EFF6FF"/>
-      <ellipse cx="120" cy="190" rx="75" ry="44" fill="#DBEAFE"/>
+    <svg viewBox="0 0 240 260" fill="none" className="w-full max-w-[200px] mx-auto drop-shadow-sm">
+      <ellipse cx="120" cy="200" rx="96" ry="52" fill="#EFF6FF"/>
+      <ellipse cx="120" cy="196" rx="74" ry="40" fill="#DBEAFE"/>
 
-      {/* Left arm — holds magnifying glass */}
-      <Arm d="M104 126 Q78 138 62 158"/>
-      {/* Magnifying glass */}
-      <circle cx="50" cy="168" r="20" fill="white" stroke="#1D4ED8" strokeWidth="2.5"/>
-      <circle cx="50" cy="168" r="14" fill="#DBEAFE" opacity="0.6"/>
-      <circle cx="44" cy="161" r="5"  fill="white" opacity="0.7"/>
-      <line  x1="63" y1="181" x2="76" y2="196" stroke="#1D4ED8" strokeWidth="4.5" strokeLinecap="round"/>
+      {/* Brazo izquierdo — sostiene lupa */}
+      <Arm d="M109 124 Q80 138 62 160"/>
+      {/* Lupa */}
+      <circle cx="50" cy="172" r="21" fill="white" stroke="#1D4ED8" strokeWidth="2.5"/>
+      <circle cx="50" cy="172" r="15" fill="#DBEAFE" opacity="0.55"/>
+      {/* Brillo lupa */}
+      <circle cx="43" cy="163" r="5" fill="white" opacity="0.75"/>
+      {/* Mango */}
+      <line x1="63" y1="185" x2="78" y2="200" stroke="#1D4ED8" strokeWidth="5" strokeLinecap="round"/>
 
-      {/* Right arm — relaxed, hand on hip */}
-      <Arm d="M136 126 Q160 138 168 158"/>
-      <circle cx="170" cy="162" r="12" fill="white" stroke="#1D4ED8" strokeWidth="1.8"/>
+      {/* Brazo derecho — en la cintura */}
+      <Arm d="M131 126 Q158 140 168 162"/>
+      <circle cx="171" cy="166" r="12" fill="white" stroke="#1D4ED8" strokeWidth="1.8"/>
 
       <KeyBody />
-      <KeyFace happy />
+      <KeyFace />
       <KeyLegs />
     </svg>
   )
 }
 
-/* ── Pose 3: holding a little house ───────────────────────────────────────── */
-function KeyHouse() {
+/* ── Pose 3: Pulgar arriba (Disfrutá) ────────────────────────────────────── */
+function KeyThumbsUp() {
   return (
-    <svg viewBox="0 0 240 260" fill="none" className="w-full max-w-[210px] mx-auto">
-      <ellipse cx="120" cy="195" rx="98" ry="58" fill="#EFF6FF"/>
-      <ellipse cx="120" cy="190" rx="75" ry="44" fill="#DBEAFE"/>
+    <svg viewBox="0 0 240 260" fill="none" className="w-full max-w-[200px] mx-auto drop-shadow-sm">
+      <ellipse cx="120" cy="200" rx="96" ry="52" fill="#EFF6FF"/>
+      <ellipse cx="120" cy="196" rx="74" ry="40" fill="#DBEAFE"/>
 
-      {/* Left arm — holds house */}
-      <Arm d="M104 126 Q76 138 60 156"/>
-      {/* Little house in hand */}
-      <rect x="28" y="162" width="38" height="28" rx="5" fill="white" stroke="#1D4ED8" strokeWidth="1.8"/>
-      <path d="M24 168 L47 148 L70 168" fill="#DBEAFE" stroke="#1D4ED8" strokeWidth="1.8" strokeLinejoin="round"/>
-      <rect x="41" y="172" width="11" height="18" rx="3" fill="#BFDBFE"/>
-      <circle cx="48" cy="181" r="1.8" fill="#2563EB"/>
-      {/* Chimney */}
-      <rect x="52" y="150" width="7" height="12" rx="2" fill="white" stroke="#BFDBFE" strokeWidth="1.2"/>
+      {/* Brazo izquierdo — relajado */}
+      <Arm d="M109 124 Q82 140 66 162"/>
+      <circle cx="63" cy="166" r="12" fill="white" stroke="#1D4ED8" strokeWidth="1.8"/>
 
-      {/* Right arm — thumbs up */}
-      <Arm d="M136 122 Q162 108 170 86"/>
-      {/* Thumb-up glove */}
-      <rect x="164" y="72" width="15" height="20" rx="7" fill="white" stroke="#1D4ED8" strokeWidth="1.8"/>
-      <rect x="157" y="83" width="15" height="12" rx="5" fill="white" stroke="#1D4ED8" strokeWidth="1.8"/>
+      {/* Brazo derecho — pulgar arriba */}
+      <Arm d="M131 118 Q160 104 170 82"/>
+      {/* Guante con pulgar */}
+      <rect x="163" y="66" width="16" height="22" rx="8" fill="white" stroke="#1D4ED8" strokeWidth="1.8"/>
+      <rect x="155" y="78" width="17" height="14" rx="6" fill="white" stroke="#1D4ED8" strokeWidth="1.8"/>
+      {/* Destellos del pulgar arriba */}
+      <path d="M180 64 Q187 56 184 68" stroke="#93C5FD" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
+      <path d="M186 58 Q194 50 190 62" stroke="#93C5FD" strokeWidth="1.7" strokeLinecap="round" fill="none"/>
 
       <KeyBody />
-      <KeyFace happy />
+      <KeyFace />
       <KeyLegs />
     </svg>
   )
@@ -162,7 +168,7 @@ const SLIDES = [
   },
   {
     id: 2,
-    visual: <KeyHouse />,
+    visual: <KeyThumbsUp />,
     eyebrow: 'Simple y directo',
     title: 'Contacto\ndirecto',
     desc: 'Escribile a quien te interesa. Coordiná en minutos. Sin vueltas ni comisiones.',
@@ -217,12 +223,12 @@ export default function Onboarding() {
           transition: 'opacity 180ms ease, transform 180ms ease',
         }}
       >
-        {/* Illustration */}
-        <div className="w-full max-w-sm flex items-center justify-center mb-6">
+        {/* Ilustración */}
+        <div className="w-full max-w-xs flex items-center justify-center mb-8">
           {slide.visual}
         </div>
 
-        {/* Text */}
+        {/* Texto */}
         <div className="text-center max-w-xs">
           <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-2">
             {slide.eyebrow}
@@ -236,9 +242,9 @@ export default function Onboarding() {
         </div>
       </div>
 
-      {/* Bottom controls */}
+      {/* Controles */}
       <div className="px-8 pb-10 pt-2 flex flex-col items-center gap-5">
-        {/* Dot indicators */}
+        {/* Dots */}
         <div className="flex gap-2">
           {SLIDES.map((_, i) => (
             <button key={i} onClick={() => setCurrent(i)} className="transition-all duration-200">
@@ -249,7 +255,7 @@ export default function Onboarding() {
           ))}
         </div>
 
-        {/* CTA buttons */}
+        {/* CTAs */}
         <div className="w-full max-w-xs space-y-2.5">
           <button
             onClick={next}

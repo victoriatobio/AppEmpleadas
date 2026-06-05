@@ -7,6 +7,7 @@ const STORAGE_KEYS = {
   user: 'kasei_user',
   users: 'kasei_users',
   mensajes: 'kasei_mensajes',
+  favorites: 'kasei_favorites',
 }
 
 function loadStorage(key, fallback) {
@@ -32,10 +33,16 @@ export function AppProvider({ children }) {
     return all
   })
   const [mensajes, setMensajes] = useState(() => loadStorage(STORAGE_KEYS.mensajes, initialMensajes))
+  const [favorites, setFavorites] = useState(() => loadStorage(STORAGE_KEYS.favorites, []))
 
   useEffect(() => { saveStorage(STORAGE_KEYS.user, user) }, [user])
   useEffect(() => { saveStorage(STORAGE_KEYS.users, users) }, [users])
   useEffect(() => { saveStorage(STORAGE_KEYS.mensajes, mensajes) }, [mensajes])
+  useEffect(() => { saveStorage(STORAGE_KEYS.favorites, favorites) }, [favorites])
+
+  function toggleFavorite(id) {
+    setFavorites(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id])
+  }
 
   function login(email, password) {
     const found = users.find(u => u.email === email && u.password === password)
@@ -122,7 +129,7 @@ export function AppProvider({ children }) {
   const unreadCount = mensajes.filter(m => m.toId === user?.id && !m.read).length
 
   return (
-    <AppContext.Provider value={{ user, users, empleadas, mensajes, unreadCount, login, loginWithGoogle, logout, register, updateProfile, sendMessage, markRead }}>
+    <AppContext.Provider value={{ user, users, empleadas, mensajes, unreadCount, favorites, login, loginWithGoogle, logout, register, updateProfile, sendMessage, markRead, toggleFavorite }}>
       {children}
     </AppContext.Provider>
   )
