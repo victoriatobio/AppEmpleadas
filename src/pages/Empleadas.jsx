@@ -4,12 +4,15 @@ import PerfilCard from '../components/PerfilCard'
 
 const SERVICIOS_OPTS = ['Limpieza', 'Plancha', 'Cocina', 'Cuidado de niños', 'Cuidado de adultos mayores', 'Jardinería']
 const MODALIDADES = ['Por horas', 'Cama adentro', 'Cama afuera']
+const DIAS = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo']
+const DIAS_LABEL = { lunes: 'L', martes: 'M', miercoles: 'X', jueves: 'J', viernes: 'V', sabado: 'S', domingo: 'D' }
 
 export default function Empleadas() {
   const { empleadas } = useApp()
   const [busqueda, setBusqueda] = useState('')
   const [servicioFiltro, setServicioFiltro] = useState([])
   const [modalidadFiltro, setModalidadFiltro] = useState('')
+  const [diasFiltro, setDiasFiltro] = useState([])
   const [soloVerificadas, setSoloVerificadas] = useState(false)
   const [filtersOpen, setFiltersOpen] = useState(false)
 
@@ -26,19 +29,24 @@ export default function Empleadas() {
       }
       if (servicioFiltro.length > 0 && !servicioFiltro.some(s => e.servicios.includes(s))) return false
       if (modalidadFiltro && e.modalidad !== modalidadFiltro) return false
+      if (diasFiltro.length > 0 && !diasFiltro.every(dia => e.disponibilidad?.[dia])) return false
       if (soloVerificadas && !e.verificada) return false
       return true
     })
-  }, [empleadas, busqueda, servicioFiltro, modalidadFiltro, soloVerificadas])
+  }, [empleadas, busqueda, servicioFiltro, modalidadFiltro, diasFiltro, soloVerificadas])
 
-  const hasFilters = busqueda || servicioFiltro.length > 0 || modalidadFiltro || soloVerificadas
+  const hasFilters = busqueda || servicioFiltro.length > 0 || modalidadFiltro || diasFiltro.length > 0 || soloVerificadas
 
   function toggleServicio(s) {
     setServicioFiltro(p => p.includes(s) ? p.filter(x => x !== s) : [...p, s])
   }
 
+  function toggleDia(dia) {
+    setDiasFiltro(p => p.includes(dia) ? p.filter(d => d !== dia) : [...p, dia])
+  }
+
   function clearFilters() {
-    setBusqueda(''); setServicioFiltro([]); setModalidadFiltro(''); setSoloVerificadas(false)
+    setBusqueda(''); setServicioFiltro([]); setModalidadFiltro(''); setDiasFiltro([]); setSoloVerificadas(false)
   }
 
   return (
@@ -96,6 +104,26 @@ export default function Empleadas() {
             )}
           </div>
           <div className="space-y-4">
+            {/* Días disponibles */}
+            <div>
+              <p className="text-xs text-zinc-400 mb-2">Días disponibles</p>
+              <div className="flex gap-1.5 flex-wrap">
+                {DIAS.map(dia => (
+                  <button
+                    key={dia}
+                    onClick={() => toggleDia(dia)}
+                    className={`w-9 h-9 rounded-xl text-xs font-bold border transition-all ${
+                      diasFiltro.includes(dia)
+                        ? 'bg-blue-600 text-white border-blue-600'
+                        : 'bg-white text-zinc-500 border-zinc-200 hover:border-blue-300'
+                    }`}
+                  >
+                    {DIAS_LABEL[dia]}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div>
               <p className="text-xs text-zinc-400 mb-2">Servicios</p>
               <div className="flex flex-wrap gap-2">

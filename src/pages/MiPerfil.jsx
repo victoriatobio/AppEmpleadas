@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 
 const DIAS_LABEL = { lunes: 'Lun', martes: 'Mar', miercoles: 'Mié', jueves: 'Jue', viernes: 'Vie', sabado: 'Sáb', domingo: 'Dom' }
 const SERVICIOS_OPTS = ['Limpieza', 'Plancha', 'Cocina', 'Cuidado de niños', 'Cuidado de adultos mayores', 'Jardinería', 'Compras/mandados']
 
 export default function MiPerfil() {
-  const { user, updateProfile } = useApp()
+  const { user, updateProfile, logout } = useApp()
+  const navigate = useNavigate()
   const [editing, setEditing] = useState(false)
   const [saved, setSaved] = useState(false)
 
@@ -275,6 +276,22 @@ export default function MiPerfil() {
 
         {editing && <button type="submit" className="btn-primary w-full">Guardar cambios</button>}
       </form>
+
+      {/* Logout — siempre visible al fondo */}
+      <div className="mt-8 pt-6 border-t border-zinc-100">
+        <button
+          onClick={() => { logout(); navigate('/') }}
+          className="w-full flex items-center justify-center gap-2 text-sm text-zinc-400 hover:text-red-500 transition-colors py-2"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+          Cerrar sesión
+        </button>
+      </div>
+
+      {/* Espaciado extra en mobile para el bottom nav */}
+      <div className="sm:hidden h-4" />
     </div>
   )
 }
