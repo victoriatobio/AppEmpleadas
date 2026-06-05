@@ -1,17 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { AppProvider } from './context/AppContext'
 import Navbar from './components/Navbar'
 import BottomNav from './components/BottomNav'
+import SplashScreen from './components/SplashScreen'
 import ProtectedRoute from './components/ProtectedRoute'
 import Onboarding from './pages/Onboarding'
-import Landing from './pages/Landing'
 import Login from './pages/Login'
 import Registro from './pages/Registro'
 import Empleadas from './pages/Empleadas'
 import PerfilEmpleada from './pages/PerfilEmpleada'
 import MiPerfil from './pages/MiPerfil'
-import Mensajes from './pages/Mensajes'
 
 /* Redirige a /welcome si no hizo el onboarding todavía */
 function OnboardingGate({ children }) {
@@ -24,23 +23,25 @@ function OnboardingGate({ children }) {
 function AppShell() {
   const location = useLocation()
   const isOnboarding = location.pathname === '/welcome'
+  const [splashDone, setSplashDone] = useState(false)
 
   return (
     <div className="min-h-screen flex flex-col">
+      {!splashDone && <SplashScreen onDone={() => setSplashDone(true)} />}
+
       {!isOnboarding && <Navbar />}
       <main className="flex-1">
         <Routes>
           {/* Onboarding — full screen, sin navbar */}
           <Route path="/welcome" element={<Onboarding />} />
 
-          {/* App */}
-          <Route path="/" element={<OnboardingGate><Landing /></OnboardingGate>} />
+          {/* Home = listado de empleadas (post-onboarding) */}
+          <Route path="/" element={<OnboardingGate><Empleadas /></OnboardingGate>} />
           <Route path="/login" element={<Login />} />
           <Route path="/registro" element={<Registro />} />
           <Route path="/empleadas" element={<Empleadas />} />
           <Route path="/empleadas/:id" element={<PerfilEmpleada />} />
           <Route path="/mi-perfil" element={<ProtectedRoute><MiPerfil /></ProtectedRoute>} />
-          <Route path="/mensajes" element={<ProtectedRoute><Mensajes /></ProtectedRoute>} />
 
           <Route path="*" element={
             <div className="flex items-center justify-center min-h-[60vh] text-zinc-400">

@@ -160,6 +160,12 @@ export default function Registro() {
     return (
       <div className="min-h-[calc(100vh-56px)] flex items-center justify-center px-4 py-12 bg-zinc-50">
         <div className="w-full max-w-lg">
+          <Link to="/empleadas" className="flex items-center gap-1 text-sm text-zinc-400 hover:text-zinc-700 mb-8 transition-colors">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Volver
+          </Link>
           <h1 className="text-2xl font-bold text-center text-zinc-900 tracking-tight mb-1">¿Cómo querés registrarte?</h1>
           <p className="text-zinc-500 text-sm text-center mb-8">Elegí el tipo de cuenta que mejor se adapta a vos</p>
           <div className="grid sm:grid-cols-2 gap-4">

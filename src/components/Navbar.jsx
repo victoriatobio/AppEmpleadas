@@ -34,7 +34,7 @@ function KaseiLogo() {
 }
 
 export default function Navbar() {
-  const { user, logout, unreadCount } = useApp()
+  const { user, logout } = useApp()
   const navigate = useNavigate()
   const location = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
@@ -63,14 +63,6 @@ export default function Navbar() {
             <Link to="/empleadas" className={linkClass('/empleadas')}>Ver empleadas</Link>
             {user ? (
               <>
-                <Link to="/mensajes" className={`${linkClass('/mensajes')} relative`}>
-                  Mensajes
-                  {unreadCount > 0 && (
-                    <span className="absolute -top-1 -right-2.5 bg-blue-600 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center font-bold">
-                      {unreadCount}
-                    </span>
-                  )}
-                </Link>
                 <Link to="/mi-perfil" className={linkClass('/mi-perfil')}>Mi perfil</Link>
                 <button onClick={handleLogout} className="text-sm font-medium text-zinc-400 hover:text-zinc-600 transition-colors">
                   Salir
@@ -107,9 +99,6 @@ export default function Navbar() {
             <Link to="/empleadas" onClick={() => setMenuOpen(false)} className="text-sm font-medium text-zinc-700 px-1">Ver empleadas</Link>
             {user ? (
               <>
-                <Link to="/mensajes" onClick={() => setMenuOpen(false)} className="text-sm font-medium text-zinc-700 px-1">
-                  Mensajes {unreadCount > 0 && <span className="ml-1.5 bg-blue-600 text-white text-[10px] rounded-full px-1.5 py-0.5">{unreadCount}</span>}
-                </Link>
                 <Link to="/mi-perfil" onClick={() => setMenuOpen(false)} className="text-sm font-medium text-zinc-700 px-1">Mi perfil</Link>
                 <button onClick={handleLogout} className="text-sm text-zinc-400 text-left px-1">Salir</button>
               </>

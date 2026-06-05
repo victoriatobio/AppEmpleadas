@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 
-function NavIcon({ path, icon, label, badge }) {
+function NavIcon({ path, icon, label }) {
   const location = useLocation()
   const active = location.pathname === path || location.pathname.startsWith(path + '/')
 
@@ -10,11 +10,6 @@ function NavIcon({ path, icon, label, badge }) {
     <Link to={path} className="flex flex-col items-center gap-0.5 flex-1 py-2 relative">
       <div className={`relative transition-colors ${active ? 'text-blue-600' : 'text-zinc-400'}`}>
         {icon}
-        {badge > 0 && (
-          <span className="absolute -top-1 -right-1.5 bg-red-500 text-white text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
-            {badge > 9 ? '9+' : badge}
-          </span>
-        )}
       </div>
       <span className={`text-[10px] font-medium transition-colors ${active ? 'text-blue-600' : 'text-zinc-400'}`}>
         {label}
@@ -27,10 +22,9 @@ function NavIcon({ path, icon, label, badge }) {
 }
 
 export default function BottomNav() {
-  const { user, unreadCount } = useApp()
+  const { user } = useApp()
   const location = useLocation()
 
-  // Solo en mobile, solo para usuarios logueados, ocultamos en ciertas rutas
   const hideRoutes = ['/welcome', '/login', '/registro']
   if (!user) return null
   if (hideRoutes.some(r => location.pathname.startsWith(r))) return null
@@ -48,16 +42,6 @@ export default function BottomNav() {
             icon={
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            }
-          />
-          <NavIcon
-            path="/mensajes"
-            label="Mensajes"
-            badge={unreadCount}
-            icon={
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
               </svg>
             }
           />
