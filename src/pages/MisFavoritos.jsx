@@ -27,26 +27,12 @@ export default function MisFavoritos() {
         <div className="flex flex-col items-center justify-center py-24 text-center">
           {/* Empty state — llave con corazón */}
           <div className="mb-6">
-            <svg viewBox="0 0 120 140" fill="none" className="w-28 mx-auto">
-              <ellipse cx="60" cy="115" rx="48" ry="22" fill="#FFF1F2"/>
-              {/* Key shaft */}
-              <rect x="50" y="62" width="20" height="60" rx="6" fill="#93C5FD"/>
-              {/* Teeth */}
-              <rect x="70" y="80" width="10" height="7" rx="2" fill="#93C5FD"/>
-              <rect x="70" y="93" width="14" height="7" rx="2" fill="#93C5FD"/>
-              <rect x="70" y="106" width="10" height="7" rx="2" fill="#93C5FD"/>
-              {/* Bow */}
-              <circle cx="60" cy="44" r="28" fill="#93C5FD"/>
-              <circle cx="60" cy="44" r="11" fill="white"/>
-              {/* Heart on bow */}
-              <path d="M60 38 C60 38 52 32 52 38 C52 42 60 48 60 48 C60 48 68 42 68 38 C68 32 60 38 60 38Z"
-                fill="#F43F5E" />
-              {/* Legs */}
-              <rect x="47" y="120" width="9" height="13" rx="3" fill="#60A5FA"/>
-              <rect x="59" y="120" width="9" height="13" rx="3" fill="#60A5FA"/>
-              <rect x="41" y="129" width="18" height="9" rx="4" fill="white" stroke="#E5E7EB" strokeWidth="1"/>
-              <rect x="58" y="129" width="18" height="9" rx="4" fill="white" stroke="#E5E7EB" strokeWidth="1"/>
-            </svg>
+            <img
+              src="/mascot/llave-corazon.png"
+              alt="Llave con corazón"
+              className="w-36 mx-auto drop-shadow-sm select-none"
+              draggable={false}
+            />
           </div>
           <h2 className="text-lg font-semibold text-zinc-700 mb-2">Todavía no guardaste ninguna</h2>
           <p className="text-sm text-zinc-400 max-w-xs mb-6 leading-relaxed">

@@ -1,8 +1,19 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-/* ─── Mascota Llave Kasei ──────────────────────────────────────────────────── */
+/* ─── Imágenes de la mascota ───────────────────────────────────────────────── */
+function MascotImg({ src, alt }) {
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className="w-full max-w-[150px] mx-auto drop-shadow-md select-none"
+      draggable={false}
+    />
+  )
+}
 
+/* ─── SVG fallback (se muestra si la imagen no carga) ────────────────────── */
 /* Cuerpo compartido de la llave */
 function KeyBody() {
   return (
@@ -154,21 +165,24 @@ function KeyThumbsUp() {
 const SLIDES = [
   {
     id: 0,
-    visual: <KeyWaving />,
+    visual: <MascotImg src="/mascot/llave-casa.png" alt="Llave con casita" />,
+    fallback: <KeyWaving />,
     eyebrow: 'Bienvenida a Kasei',
     title: 'El hogar en\nbuenas manos',
     desc: 'Conectamos empleadoras con empleadas de confianza en barrios cerrados de Buenos Aires.',
   },
   {
     id: 1,
-    visual: <KeySearching />,
+    visual: <MascotImg src="/mascot/llave-escudo.png" alt="Llave con escudo" />,
+    fallback: <KeySearching />,
     eyebrow: 'Sin intermediarios',
     title: 'Perfiles verificados,\nreferencias reales',
     desc: 'Filtrá por zona, tipo de servicio y disponibilidad. Sin boca a boca, sin complicaciones.',
   },
   {
     id: 2,
-    visual: <KeyThumbsUp />,
+    visual: <MascotImg src="/mascot/llave-telefono.png" alt="Llave con teléfono" />,
+    fallback: <KeyThumbsUp />,
     eyebrow: 'Simple y directo',
     title: 'Contacto\ndirecto',
     desc: 'Escribile a quien te interesa. Coordiná en minutos. Sin vueltas ni comisiones.',
