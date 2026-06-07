@@ -1,19 +1,27 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 
 const DIAS = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo']
 const DIAS_LABEL = { lunes: 'L', martes: 'M', miercoles: 'X', jueves: 'J', viernes: 'V', sabado: 'S', domingo: 'D' }
 
 export default function PerfilCard({ empleada }) {
-  const { favorites, toggleFavorite } = useApp()
+  const { favorites, toggleFavorite, user } = useApp()
+  const navigate = useNavigate()
   const isFav = favorites.includes(empleada.id)
+
+  function handleFav(e) {
+    e.preventDefault()
+    e.stopPropagation()
+    if (!user) { navigate('/login'); return }
+    toggleFavorite(empleada.id)
+  }
 
   return (
     <div className="group relative bg-white rounded-2xl border border-zinc-100 hover:border-zinc-200 hover:shadow-sm transition-all duration-200">
       {/* Heart button */}
       <button
-        onClick={e => { e.preventDefault(); e.stopPropagation(); toggleFavorite(empleada.id) }}
+        onClick={handleFav}
         className="absolute top-3.5 right-3.5 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-white/80 backdrop-blur-sm border border-zinc-100 transition-all hover:scale-110 active:scale-95 shadow-sm"
         aria-label={isFav ? 'Quitar de favoritas' : 'Guardar como favorita'}
       >

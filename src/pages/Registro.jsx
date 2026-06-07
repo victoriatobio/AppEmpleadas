@@ -170,15 +170,15 @@ export default function Registro() {
           <p className="text-zinc-500 text-sm text-center mb-8">Elegí el tipo de cuenta que mejor se adapta a vos</p>
           <div className="grid sm:grid-cols-2 gap-4">
             {[
-              { val: 'empleadora', title: 'Empleadora', desc: 'Quiero contratar una empleada de hogar para mi familia', icon: '🏠' },
-              { val: 'empleada', title: 'Empleada', desc: 'Busco trabajo en hogares y quiero crear mi perfil', icon: '👩' },
-            ].map(({ val, title, desc, icon }) => (
+              { val: 'empleadora', title: 'Empleadora', desc: 'Quiero contratar una empleada de hogar para mi familia', img: '/mascot/llave-empleadora.png' },
+              { val: 'empleada', title: 'Empleada', desc: 'Busco trabajo en hogares y quiero crear mi perfil', img: '/mascot/llave-domestica.png' },
+            ].map(({ val, title, desc, img }) => (
               <button
                 key={val}
                 onClick={() => { setRol(val); setStep(2) }}
                 className="bg-white rounded-2xl border border-zinc-100 hover:border-blue-300 hover:shadow-sm p-6 text-left transition-all"
               >
-                <span className="text-3xl mb-3 block">{icon}</span>
+                <img src={img} alt={title} className="w-16 h-16 object-contain mb-3" draggable={false} />
                 <h3 className="font-semibold text-zinc-800 mb-1">{title}</h3>
                 <p className="text-sm text-zinc-500">{desc}</p>
               </button>
