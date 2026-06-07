@@ -30,7 +30,7 @@ export default function MisFavoritos() {
             <img
               src="/mascot/llave-corazon.png"
               alt="Llave con corazón"
-              className="w-36 mx-auto drop-shadow-sm select-none"
+              className="w-24 mx-auto drop-shadow-sm select-none"
               draggable={false}
             />
           </div>
