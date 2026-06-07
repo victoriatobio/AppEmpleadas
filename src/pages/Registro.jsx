@@ -176,9 +176,9 @@ export default function Registro() {
               <button
                 key={val}
                 onClick={() => { setRol(val); setStep(2) }}
-                className="bg-white rounded-2xl border border-zinc-100 hover:border-blue-300 hover:shadow-sm p-6 text-left transition-all"
+                className="bg-white rounded-2xl border border-zinc-100 hover:border-blue-300 hover:shadow-sm p-6 text-center transition-all"
               >
-                <img src={img} alt={title} className="w-24 h-24 object-contain mb-3" draggable={false} />
+                <img src={img} alt={title} className="w-24 h-24 object-contain mb-3 mx-auto" draggable={false} />
                 <h3 className="font-semibold text-zinc-800 mb-1">{title}</h3>
                 <p className="text-sm text-zinc-500">{desc}</p>
               </button>
