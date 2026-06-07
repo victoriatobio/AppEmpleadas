@@ -184,7 +184,7 @@ export default function Registro() {
               </button>
             ))}
           </div>
-          <p className="text-center text-sm text-zinc-500 mt-8">
+          <p className="text-center text-sm text-zinc-500 mt-4">
             ¿Ya tenés cuenta?{' '}
             <Link to="/login" className="text-blue-600 font-medium hover:underline">Ingresá</Link>
           </p>
