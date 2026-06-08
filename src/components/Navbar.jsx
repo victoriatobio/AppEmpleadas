@@ -63,6 +63,7 @@ export default function Navbar() {
             <Link to="/empleadas" className={linkClass('/empleadas')}>Ver empleadas</Link>
             {user ? (
               <>
+                <Link to="/favoritos" className={linkClass('/favoritos')}>Mis favoritas</Link>
                 <Link to="/mi-perfil" className={linkClass('/mi-perfil')}>Mi perfil</Link>
                 <button onClick={handleLogout} className="text-sm font-medium text-zinc-400 hover:text-zinc-600 transition-colors">
                   Salir

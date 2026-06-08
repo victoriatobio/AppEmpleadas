@@ -24,7 +24,7 @@ export default function MisFavoritos() {
       </div>
 
       {favEmpleadas.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-24 text-center">
+        <div className="flex flex-col items-center justify-center pt-10 pb-24 text-center">
           {/* Empty state — llave con corazón */}
           <div className="mb-6">
             <img

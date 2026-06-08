@@ -8,7 +8,7 @@ const DIAS_LABEL = { lunes: 'L', martes: 'M', miercoles: 'X', jueves: 'J', viern
 export default function PerfilCard({ empleada }) {
   const { favorites, toggleFavorite, user } = useApp()
   const navigate = useNavigate()
-  const isFav = favorites.includes(empleada.id)
+  const isFav = !!user && favorites.includes(empleada.id)
 
   function handleFav(e) {
     e.preventDefault()

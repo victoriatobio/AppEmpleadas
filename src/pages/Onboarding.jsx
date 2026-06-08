@@ -173,6 +173,14 @@ const SLIDES = [
   },
   {
     id: 1,
+    visual: <MascotImg src="/mascot/llave-lupa.png" alt="Llave con lupa" />,
+    fallback: <KeySearching />,
+    eyebrow: 'Búsqueda inteligente',
+    title: 'Filtrá por lo que\nnecesitás',
+    desc: 'Elegí las habilidades que buscás — limpieza, cocina, cuidado de niños — y encontrá a quien se adapta a tu hogar.',
+  },
+  {
+    id: 2,
     visual: <MascotImg src="/mascot/llave-escudo.png" alt="Llave con escudo" />,
     fallback: <KeySearching />,
     eyebrow: 'Sin intermediarios',
@@ -180,7 +188,7 @@ const SLIDES = [
     desc: 'Filtrá por zona, tipo de servicio y disponibilidad. Sin boca a boca, sin complicaciones.',
   },
   {
-    id: 2,
+    id: 3,
     visual: <MascotImg src="/mascot/llave-telefono.png" alt="Llave con teléfono" />,
     fallback: <KeyThumbsUp />,
     eyebrow: 'Simple y directo',

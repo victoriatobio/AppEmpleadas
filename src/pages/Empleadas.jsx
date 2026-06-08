@@ -7,9 +7,17 @@ const HABILIDADES_OPTS = [
   'Cuidado de niños', 'Cuidado de mascotas', 'Cuidado geriátrico',
 ]
 
+const MODALIDADES_OPTS = ['Por horas', 'Cama adentro', 'Cama afuera']
+
 export default function Empleadas() {
-  const { empleadas } = useApp()
-  const [habilidadesFiltro, setHabilidadesFiltro] = useState([])
+  const { empleadas, user } = useApp()
+  const [habilidadesFiltro, setHabilidadesFiltro] = useState(() =>
+    user?.tipo === 'empleadora' ? (user?.serviciosBuscados || []) : []
+  )
+  const [modalidadFiltro, setModalidadFiltro] = useState(() => {
+    const m = user?.modalidadBuscada
+    return m && m !== 'Cualquiera' ? m : ''
+  })
 
   function toggleHabilidad(h) {
     setHabilidadesFiltro(prev =>
@@ -20,11 +28,15 @@ export default function Empleadas() {
   const resultados = useMemo(() => {
     return empleadas.filter(e => {
       if (habilidadesFiltro.length > 0 && !habilidadesFiltro.some(h => e.habilidades?.includes(h))) return false
+      if (modalidadFiltro && e.modalidad !== modalidadFiltro) return false
       return true
     })
-  }, [empleadas, habilidadesFiltro])
+  }, [empleadas, habilidadesFiltro, modalidadFiltro])
 
-  const hasFilters = habilidadesFiltro.length > 0
+  const hasFilters = habilidadesFiltro.length > 0 || !!modalidadFiltro
+  const hasProfileFilters = user?.tipo === 'empleadora' && (
+    (user?.serviciosBuscados?.length > 0) || (user?.modalidadBuscada && user.modalidadBuscada !== 'Cualquiera')
+  )
 
   return (
     <div className="max-w-5xl mx-auto px-5 sm:px-8 py-10">
@@ -44,28 +56,65 @@ export default function Empleadas() {
         </p>
       </div>
 
-      {/* Filtro habilidades */}
-      <div className="mb-6">
-        <p className="text-xs text-zinc-400 mb-2 font-medium uppercase tracking-wide">Habilidades</p>
-        <div className="flex flex-wrap gap-2">
-          {HABILIDADES_OPTS.map(h => (
+      {/* Filtros */}
+      <div className="mb-6 space-y-4">
+        {hasProfileFilters && (
+          <div className="flex items-center gap-2 text-xs text-blue-600 bg-blue-50 rounded-xl px-3 py-2">
+            <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            Filtrado según tus preferencias — podés modificarlo
+          </div>
+        )}
+
+        <div>
+          <p className="text-xs text-zinc-400 mb-2 font-medium uppercase tracking-wide">Habilidades</p>
+          <div className="flex flex-wrap gap-2">
+            {HABILIDADES_OPTS.map(h => (
+              <button
+                key={h}
+                onClick={() => toggleHabilidad(h)}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
+                  habilidadesFiltro.includes(h)
+                    ? 'bg-blue-600 text-white border-blue-600'
+                    : 'bg-white text-zinc-600 border-zinc-200 hover:border-blue-300'
+                }`}
+              >
+                {h}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <p className="text-xs text-zinc-400 mb-2 font-medium uppercase tracking-wide">Modalidad</p>
+          <div className="flex flex-wrap gap-2">
             <button
-              key={h}
-              onClick={() => toggleHabilidad(h)}
+              onClick={() => setModalidadFiltro('')}
               className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
-                habilidadesFiltro.includes(h)
-                  ? 'bg-blue-600 text-white border-blue-600'
-                  : 'bg-white text-zinc-600 border-zinc-200 hover:border-blue-300'
+                !modalidadFiltro ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-zinc-600 border-zinc-200 hover:border-blue-300'
               }`}
             >
-              {h}
+              Todas
             </button>
-          ))}
+            {MODALIDADES_OPTS.map(m => (
+              <button
+                key={m}
+                onClick={() => setModalidadFiltro(prev => prev === m ? '' : m)}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
+                  modalidadFiltro === m ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-zinc-600 border-zinc-200 hover:border-blue-300'
+                }`}
+              >
+                {m}
+              </button>
+            ))}
+          </div>
         </div>
+
         {hasFilters && (
           <button
-            onClick={() => setHabilidadesFiltro([])}
-            className="text-xs text-zinc-400 hover:text-red-500 mt-3 transition-colors"
+            onClick={() => { setHabilidadesFiltro([]); setModalidadFiltro('') }}
+            className="text-xs text-zinc-400 hover:text-red-500 transition-colors"
           >
             Limpiar filtros
           </button>
