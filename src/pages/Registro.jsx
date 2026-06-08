@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams, Navigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import GoogleBtn from '../components/GoogleBtn'
 
@@ -119,7 +119,7 @@ export default function Registro() {
     descripcionHogar: '',
   })
 
-  if (user) { navigate('/'); return null }
+  if (user) return <Navigate to="/empleadas" replace />
 
   // Si el rol es empleada, mostrar pantalla de Google Form
   if (rol === 'empleada') return <EmpleadaGoogleForm />

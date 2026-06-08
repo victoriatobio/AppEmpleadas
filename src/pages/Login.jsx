@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { Link, useNavigate, useLocation, Navigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import GoogleBtn from '../components/GoogleBtn'
 
@@ -7,13 +7,13 @@ export default function Login() {
   const { login, user } = useApp()
   const navigate = useNavigate()
   const location = useLocation()
-  const from = location.state?.from?.pathname || '/'
+  const from = location.state?.from?.pathname || '/empleadas'
 
   const [form, setForm] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  if (user) { navigate(from, { replace: true }); return null }
+  if (user) return <Navigate to={from} replace />
 
   function handleChange(e) { setForm(f => ({ ...f, [e.target.name]: e.target.value })); setError('') }
 
