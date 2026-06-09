@@ -1,200 +1,144 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { useApp } from '../context/AppContext'
+import { motion } from 'framer-motion'
+import { ArrowRight, Check, FileText, HeartHandshake, Sparkles } from 'lucide-react'
 
-function Check() {
+const googleFormUrl =
+  'https://docs.google.com/forms/d/e/1FAIpQLSdpYyan_GAR5Lg1nPDeacn9pPcVMJuLcI3BbFUAqPyVxYQ-UQ/viewform'
+const formUrl = '#form-placeholder'
+
+function App() {
   return (
-    <svg className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-    </svg>
-  )
-}
+    <main className="min-h-screen bg-white text-[#1E3A5F]">
+      <header className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 sm:px-8">
+        <a href="#inicio" className="flex items-center gap-3">
+          <span className="flex size-10 items-center justify-center rounded-2xl bg-[#3B82F6] text-lg font-black text-white">
+            K
+          </span>
+          <span className="text-xl font-bold tracking-tight">Kasei</span>
+        </a>
+        <a
+          href={formUrl}
+          className="hidden rounded-full bg-[#1E3A5F] px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[#152D4A] sm:inline-flex"
+        >
+          ¡Quiero conseguir trabajo!
+        </a>
+      </header>
 
-const STATS = [
-  { num: '50+', label: 'Empleadas activas' },
-  { num: '100%', label: 'Con referencias' },
-  { num: 'Gratis', label: 'Para empleadas' },
-]
-
-const STEPS = [
-  { n: '1', t: 'Creás tu perfil', d: 'Completá tu CV digital: experiencia, habilidades y referencias de empleadoras anteriores.' },
-  { n: '2', t: 'Te encontramos', d: 'Las empleadoras filtran por zona, servicio y disponibilidad.' },
-  { n: '3', t: 'Se conectan', d: 'Un mensaje dentro de la app, coordinan y listo. Sin vueltas.' },
-]
-
-export default function Landing() {
-  const { user } = useApp()
-
-  return (
-    <div className="min-h-screen bg-white">
-
-      {/* ── HERO ─────────────────────────────────── */}
-      <section className="relative overflow-hidden">
-        {/* Soft blue blob — evoca el branding */}
-        <div
-          className="pointer-events-none absolute -top-40 right-0 w-[700px] h-[700px] rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(37,99,235,0.10) 0%, transparent 70%)' }}
-        />
-        <div
-          className="pointer-events-none absolute top-20 right-40 w-[300px] h-[300px] rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(96,165,250,0.12) 0%, transparent 70%)' }}
-        />
-
-        <div className="max-w-4xl mx-auto px-6 pt-20 pb-24 text-center relative z-10">
-          {/* Pill badge */}
-          <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-600 text-xs font-semibold px-4 py-1.5 rounded-full mb-8 border border-blue-100 tracking-wide uppercase">
-            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" />
-            Buenos Aires · Barrios cerrados
+      <section id="inicio" className="mx-auto grid max-w-6xl gap-14 px-5 pb-20 pt-12 sm:px-8 lg:grid-cols-[1fr_0.92fr] lg:items-center lg:pb-28 lg:pt-20">
+        <motion.div
+          initial={{ opacity: 0, y: 22 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.65, ease: 'easeOut' }}
+          className="max-w-3xl"
+        >
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-[#EAF3FF] px-4 py-2 text-sm font-semibold text-[#3B82F6]">
+            <Sparkles size={16} />
+            Propuesta de valor de Kasei
           </div>
 
-          {/* Headline — grande, apretado, editorial */}
-          <h1
-            className="text-zinc-900 mb-6 leading-[1.02] tracking-tight"
-            style={{ fontSize: 'clamp(2.8rem, 7vw, 5.5rem)', fontWeight: 700 }}
-          >
-            El hogar en<br />
-            <span className="text-blue-600">buenas manos</span>
+          <h1 className="text-5xl font-semibold leading-[1.04] tracking-normal text-[#1E3A5F] sm:text-6xl lg:text-7xl">
+            Tu próximo trabajo está más cerca de lo que pensás.
           </h1>
 
-          <p className="text-zinc-500 text-lg max-w-lg mx-auto mb-10 leading-relaxed">
-            Conectamos empleadoras con empleadas de confianza.
-            Perfiles verificados, referencias reales. Sin boca a boca.
+          <p className="mt-7 max-w-xl text-xl font-medium leading-8 text-slate-600 sm:text-2xl">
+            Kasei te ayuda a transformar tu experiencia, habilidades y referencias en un CV claro, confiable y fácil de compartir.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            {user ? (
-              <Link to="/empleadas" className="btn-primary">
-                Ver empleadas disponibles →
-              </Link>
-            ) : (
-              <>
-                <Link to="/registro?rol=empleadora" className="btn-primary">
-                  Busco empleada →
-                </Link>
-                <Link to="/registro?rol=empleada" className="btn-secondary">
-                  Busco trabajo
-                </Link>
-              </>
-            )}
+          <div className="mb-8 mt-9 flex flex-col gap-3 sm:flex-row">
+            <a
+              href={formUrl}
+              className="inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-[#3B82F6] px-10 text-base font-semibold text-white shadow-[0_18px_38px_rgba(59,130,246,0.24)] transition hover:-translate-y-0.5 hover:bg-[#256FE6] sm:w-auto"
+            >
+              ¡Quiero conseguir trabajo!
+              <ArrowRight size={19} strokeWidth={2.4} />
+            </a>
           </div>
+        </motion.div>
 
-          {/* Stats inline */}
-          <div className="flex items-center justify-center gap-8 mt-14 pt-8 border-t border-zinc-100">
-            {STATS.map(({ num, label }) => (
-              <div key={label} className="text-center">
-                <div className="text-xl font-bold text-zinc-900">{num}</div>
-                <div className="text-xs text-zinc-400 mt-0.5">{label}</div>
-              </div>
-            ))}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.97, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.12, ease: 'easeOut' }}
+          className="relative"
+        >
+          <div className="overflow-hidden rounded-[36px] bg-[#EAF3FF] p-3 shadow-[0_30px_90px_rgba(30,58,95,0.16)]">
+            <img
+              src="/images/kasei-hero.png"
+              alt="Empleada del hogar feliz compartiendo un momento cálido con una familia en una casa luminosa"
+              className="h-[420px] w-full rounded-[28px] object-cover sm:h-[560px]"
+            />
           </div>
-        </div>
-      </section>
-
-      {/* ── TWO COLUMNS ──────────────────────────── */}
-      <section className="bg-zinc-50 border-y border-zinc-100">
-        <div className="max-w-5xl mx-auto px-6 py-20">
-          <p className="section-label text-center mb-12">¿Quién sos?</p>
-          <div className="grid md:grid-cols-2 gap-5">
-
-            {/* Empleadora */}
-            <div className="bg-white rounded-2xl border border-zinc-100 p-8 flex flex-col">
-              <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-5">
-                <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                </svg>
+          <div className="absolute -bottom-5 left-5 right-5 rounded-[28px] bg-white p-5 shadow-[0_18px_45px_rgba(30,58,95,0.14)] sm:left-8 sm:right-8">
+            <div className="flex items-start gap-4">
+              <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-[#EAF3FF] text-[#3B82F6]">
+                <HeartHandshake size={23} />
               </div>
-              <h3 className="text-lg font-semibold text-zinc-900 mb-2">Soy empleadora</h3>
-              <p className="text-sm text-zinc-500 leading-relaxed mb-6">
-                Buscás alguien de confianza para tu hogar. Filtrá por zona, disponibilidad y servicio. Referencias reales, proceso claro.
-              </p>
-              <ul className="space-y-2.5 mb-8 flex-1">
-                {['Perfiles verificados con referencias', 'Filtros por zona y servicio', 'Contacto directo vía mensajes'].map(t => (
-                  <li key={t} className="flex items-start gap-2 text-sm text-zinc-600"><Check />{t}</li>
-                ))}
-              </ul>
-              <Link
-                to={user ? '/empleadas' : '/registro?rol=empleadora'}
-                className="btn-primary w-full"
-              >
-                {user ? 'Ver empleadas' : 'Comenzar →'}
-              </Link>
-            </div>
-
-            {/* Empleada */}
-            <div className="bg-blue-600 rounded-2xl p-8 flex flex-col text-white">
-              <div className="w-10 h-10 rounded-xl bg-blue-500 flex items-center justify-center mb-5">
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
+              <div>
+                <p className="font-semibold">Un perfil que habla por vos</p>
+                <p className="mt-1 text-sm leading-6 text-slate-600">
+                  Mostrá quién sos, cómo trabajás y qué experiencia tenés.
+                </p>
               </div>
-              <h3 className="text-lg font-semibold mb-2">Soy empleada</h3>
-              <p className="text-sm text-blue-100 leading-relaxed mb-6">
-                Buscás trabajo en barrios cerrados. Creá tu perfil, mostrá tu experiencia y que las familias te encuentren a vos.
-              </p>
-              <ul className="space-y-2.5 mb-8 flex-1">
-                {['Tu CV digital con experiencia', 'Referencias verificables', 'Completamente gratuito'].map(t => (
-                  <li key={t} className="flex items-start gap-2 text-sm text-blue-100">
-                    <svg className="w-4 h-4 text-blue-300 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                    </svg>
-                    {t}
-                  </li>
-                ))}
-              </ul>
-              <Link
-                to={user ? '/mi-perfil' : '/registro?rol=empleada'}
-                className="bg-white text-blue-600 font-medium text-sm px-5 py-2.5 rounded-xl hover:bg-blue-50 transition-colors text-center block active:scale-[0.98]"
-              >
-                {user ? 'Ver mi perfil' : 'Crear perfil gratis →'}
-              </Link>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* ── HOW IT WORKS ─────────────────────────── */}
-      <section className="max-w-4xl mx-auto px-6 py-20">
-        <p className="section-label text-center mb-12">Cómo funciona</p>
-        <div className="grid md:grid-cols-3 gap-8">
-          {STEPS.map(({ n, t, d }) => (
-            <div key={n} className="flex flex-col items-start">
-              <div
-                className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold mb-4"
-              >
-                {n}
-              </div>
-              <h3 className="font-semibold text-zinc-900 mb-2">{t}</h3>
-              <p className="text-sm text-zinc-500 leading-relaxed">{d}</p>
+      <section className="border-y border-[#EAF3FF] bg-[#F8FBFF] px-5 py-12 sm:px-8">
+        <div className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-3">
+          {[
+            ['Ordená tu experiencia', FileText],
+            ['Mostrá tus referencias', Check],
+            ['Accedé a más oportunidades', HeartHandshake],
+          ].map(([text, Icon]) => (
+            <div key={text} className="flex items-center gap-3 rounded-3xl bg-white p-5 shadow-sm">
+              <span className="flex size-10 items-center justify-center rounded-2xl bg-[#EAF3FF] text-[#3B82F6]">
+                <Icon size={20} />
+              </span>
+              <span className="font-semibold">{text}</span>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── CTA FINAL ────────────────────────────── */}
-      <section className="border-t border-zinc-100">
-        <div className="max-w-4xl mx-auto px-6 py-20 text-center">
-          <p className="section-label mb-4">Empezá hoy</p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-zinc-900 mb-4 tracking-tight leading-tight">
-            Tu próxima empleada<br />está en Kasei
-          </h2>
-          <p className="text-zinc-500 text-sm mb-8 max-w-xs mx-auto">
-            Registrate en minutos, sin tarjeta de crédito.
+      <section id="form-placeholder" className="px-5 py-16 sm:px-8">
+        <div className="mx-auto max-w-4xl rounded-[36px] bg-[#1E3A5F] p-5 text-center text-white shadow-[0_30px_90px_rgba(30,58,95,0.2)] sm:p-8 lg:p-10">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#BBD7FF]">Formulario</p>
+          <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">Creá tu CV en Kasei</h2>
+          <p className="mx-auto mt-4 max-w-xl leading-8 text-blue-50">
+            Completá tus datos para que podamos generar tu perfil laboral.
           </p>
-          {!user ? (
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link to="/registro?rol=empleadora" className="btn-primary">Soy empleadora →</Link>
-              <Link to="/registro?rol=empleada" className="btn-secondary">Soy empleada</Link>
-            </div>
-          ) : (
-            <Link to="/empleadas" className="btn-primary">Ver empleadas disponibles →</Link>
-          )}
+          <div className="mt-8 rounded-[28px] bg-white p-6 text-[#1E3A5F] shadow-[0_20px_55px_rgba(0,0,0,0.18)] sm:p-8">
+            <p className="text-xl font-semibold">Formulario de Kasei</p>
+            <p className="mx-auto mt-3 max-w-xl leading-7 text-slate-600">
+              Para que no te pida iniciar sesión dentro de la página, abrilo directamente en Google Forms.
+            </p>
+            <a
+              href={googleFormUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-7 inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-[#3B82F6] px-10 text-base font-semibold text-white shadow-[0_18px_38px_rgba(59,130,246,0.24)] transition hover:-translate-y-0.5 hover:bg-[#256FE6]"
+            >
+              Abrir formulario
+              <ArrowRight size={19} strokeWidth={2.4} />
+            </a>
+          </div>
+          <div className="mx-auto mt-6 max-w-2xl rounded-3xl bg-white/10 p-5 ring-1 ring-white/15">
+            <p className="font-semibold">Después de completarlo</p>
+            <p className="mt-2 text-sm leading-6 text-blue-50">
+              Tu CV se está generando. Entrá a la app para verlo y modificarlo.
+            </p>
+          </div>
+          <a
+            href="https://app.kasei.com"
+            className="mt-7 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-7 text-sm font-semibold text-[#1E3A5F] transition hover:-translate-y-0.5 hover:bg-[#EAF3FF]"
+          >
+            Entrar a la app
+            <ArrowRight size={17} strokeWidth={2.4} />
+          </a>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="border-t border-zinc-100 py-6 text-center text-xs text-zinc-400">
-        © 2025 Kasei · Universidad de San Andrés
-      </footer>
-    </div>
+    </main>
   )
 }
+
+export default App
