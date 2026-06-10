@@ -99,16 +99,22 @@ export default function PerfilEmpleada() {
           {/* Experiencia */}
           <div className="bg-white rounded-2xl border border-zinc-100 p-5">
             <p className="section-label">Experiencia y habilidades</p>
-            {emp.experiencia > 0 && (
+            {emp.experiencia > 0 ? (
               <p className="text-sm text-zinc-700 mb-3">
                 <span className="font-semibold text-zinc-900">{emp.experiencia} año{emp.experiencia !== 1 ? 's' : ''}</span> de experiencia
               </p>
+            ) : (
+              <p className="text-sm text-zinc-400 mb-3">Sin experiencia previa registrada</p>
             )}
-            <div className="flex flex-wrap gap-1.5">
-              {emp.habilidades?.map(h => (
-                <span key={h} className="text-xs bg-zinc-100 text-zinc-500 px-2.5 py-1 rounded-full">{h}</span>
-              ))}
-            </div>
+            {emp.habilidades?.length > 0 ? (
+              <div className="flex flex-wrap gap-1.5">
+                {emp.habilidades.map(h => (
+                  <span key={h} className="text-xs bg-zinc-100 text-zinc-500 px-2.5 py-1 rounded-full">{h}</span>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-zinc-400">Sin habilidades cargadas</p>
+            )}
           </div>
 
           {/* Referencias */}
@@ -196,9 +202,9 @@ export default function PerfilEmpleada() {
           {/* Quick stats */}
           <div className="bg-white rounded-2xl border border-zinc-100 p-5">
             {[
-              { label: 'Experiencia', val: `${emp.experiencia || 0} años` },
+              { label: 'Experiencia', val: emp.experiencia > 0 ? `${emp.experiencia} año${emp.experiencia !== 1 ? 's' : ''}` : 'Sin experiencia previa' },
               { label: 'Modalidad', val: emp.modalidad },
-              { label: 'Referencias', val: emp.referencias?.length || 0 },
+              { label: 'Referencias', val: emp.referencias?.length > 0 ? emp.referencias.length : 'Sin referencias' },
             ].map(({ label, val }) => (
               <div key={label} className="flex justify-between items-center py-2 border-b border-zinc-50 last:border-0">
                 <span className="text-xs text-zinc-400">{label}</span>
