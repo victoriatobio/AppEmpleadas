@@ -23,6 +23,8 @@ function saveStorage(key, value) {
   localStorage.setItem(key, JSON.stringify(value))
 }
 
+const SHEETS_API = import.meta.env.VITE_SHEETS_API
+
 export function AppProvider({ children }) {
   const [user, setUser] = useState(() => loadStorage(STORAGE_KEYS.user, null))
   const [users, setUsers] = useState(() => {
@@ -32,8 +34,17 @@ export function AppProvider({ children }) {
     saveStorage(STORAGE_KEYS.users, all)
     return all
   })
+  const [sheetEmpleadas, setSheetEmpleadas] = useState([])
   const [mensajes, setMensajes] = useState(() => loadStorage(STORAGE_KEYS.mensajes, initialMensajes))
   const [favorites, setFavorites] = useState(() => loadStorage(STORAGE_KEYS.favorites, []))
+
+  useEffect(() => {
+    if (!SHEETS_API) return
+    fetch(SHEETS_API)
+      .then(r => r.json())
+      .then(data => setSheetEmpleadas(Array.isArray(data) ? data : []))
+      .catch(() => {})
+  }, [])
 
   useEffect(() => { saveStorage(STORAGE_KEYS.user, user) }, [user])
   useEffect(() => { saveStorage(STORAGE_KEYS.users, users) }, [users])
@@ -124,12 +135,15 @@ export function AppProvider({ children }) {
     setMensajes(prev => prev.map(m => m.id === msgId ? { ...m, read: true } : m))
   }
 
-  const empleadas = users.filter(u => u.tipo === 'empleada')
+  const empleadas = [
+    ...users.filter(u => u.tipo === 'empleada'),
+    ...sheetEmpleadas.filter(s => !users.some(u => u.id === s.id)),
+  ]
 
   const unreadCount = mensajes.filter(m => m.toId === user?.id && !m.read).length
 
   return (
-    <AppContext.Provider value={{ user, users, empleadas, mensajes, unreadCount, favorites, login, loginWithGoogle, logout, register, updateProfile, sendMessage, markRead, toggleFavorite }}>
+    <AppContext.Provider value={{ user, users, empleadas, sheetEmpleadas, mensajes, unreadCount, favorites, login, loginWithGoogle, logout, register, updateProfile, sendMessage, markRead, toggleFavorite }}>
       {children}
     </AppContext.Provider>
   )
