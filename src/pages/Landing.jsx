@@ -64,7 +64,7 @@ function App() {
             <img
               src="/mascot/llave-saluda.png"
               alt="Mascota de Kasei"
-              className="h-[420px] w-full rounded-[28px] object-contain sm:h-[560px]"
+              className="h-[280px] w-full rounded-[28px] object-contain sm:h-[360px]"
             />
           </div>
           <div className="absolute -bottom-5 left-5 right-5 rounded-[28px] bg-white p-5 shadow-[0_18px_45px_rgba(30,58,95,0.14)] sm:left-8 sm:right-8">
