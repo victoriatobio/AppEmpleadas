@@ -117,10 +117,10 @@ export default function Registro() {
     descripcionHogar: '',
   })
 
-  if (user) return <Navigate to="/empleadas" replace />
-
-  // Si el rol es empleada, mostrar pantalla de Google Form
+  // Si el rol es empleada, mostrar siempre esta pantalla aunque esté logueada
   if (rol === 'empleada') return <EmpleadaGoogleForm />
+
+  if (user) return <Navigate to="/empleadas" replace />
 
   function handleBase(e) { setBase(f => ({ ...f, [e.target.name]: e.target.value })); setError('') }
   function handleEmpl(e) { setEmpl(f => ({ ...f, [e.target.name]: e.target.value })); setError('') }
