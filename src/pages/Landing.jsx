@@ -107,34 +107,18 @@ function App() {
           <p className="mx-auto mt-4 max-w-xl leading-8 text-blue-50">
             Completá tus datos para que podamos generar tu perfil laboral.
           </p>
-          <div className="mt-8 rounded-[28px] bg-white p-6 text-[#1E3A5F] shadow-[0_20px_55px_rgba(0,0,0,0.18)] sm:p-8">
-            <p className="text-xl font-semibold">Formulario de Kasei</p>
-            <p className="mx-auto mt-3 max-w-xl leading-7 text-slate-600">
-              Para que no te pida iniciar sesión dentro de la página, abrilo directamente en Google Forms.
-            </p>
-            <a
-              href={googleFormUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-7 inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-[#3B82F6] px-10 text-base font-semibold text-white shadow-[0_18px_38px_rgba(59,130,246,0.24)] transition hover:-translate-y-0.5 hover:bg-[#256FE6]"
+          <div className="mt-8 rounded-[28px] bg-white overflow-hidden shadow-[0_20px_55px_rgba(0,0,0,0.18)]">
+            <iframe
+              src="https://docs.google.com/forms/d/e/1FAIpQLSeDI00kANoImiG3cBUzkqm0Qqgi1nlYy5uscqTGR9vaNK7Mbg/viewform?embedded=true"
+              width="100%"
+              height="6357"
+              frameBorder="0"
+              marginHeight="0"
+              marginWidth="0"
             >
-              Abrir formulario
-              <ArrowRight size={19} strokeWidth={2.4} />
-            </a>
+              Cargando…
+            </iframe>
           </div>
-          <div className="mx-auto mt-6 max-w-2xl rounded-3xl bg-white/10 p-5 ring-1 ring-white/15">
-            <p className="font-semibold">Después de completarlo</p>
-            <p className="mt-2 text-sm leading-6 text-blue-50">
-              Tu CV se está generando. Entrá a la app para verlo y modificarlo.
-            </p>
-          </div>
-          <a
-            href="https://app.kasei.com"
-            className="mt-7 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-7 text-sm font-semibold text-[#1E3A5F] transition hover:-translate-y-0.5 hover:bg-[#EAF3FF]"
-          >
-            Entrar a la app
-            <ArrowRight size={17} strokeWidth={2.4} />
-          </a>
         </div>
       </section>
     </main>
