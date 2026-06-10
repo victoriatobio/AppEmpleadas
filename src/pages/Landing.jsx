@@ -62,9 +62,9 @@ function App() {
         >
           <div className="overflow-hidden rounded-[36px] bg-[#EAF3FF] p-3 shadow-[0_30px_90px_rgba(30,58,95,0.16)]">
             <img
-              src="/images/kasei-hero.png"
-              alt="Empleada del hogar feliz compartiendo un momento cálido con una familia en una casa luminosa"
-              className="h-[420px] w-full rounded-[28px] object-cover sm:h-[560px]"
+              src="/mascot/llave-saluda.png"
+              alt="Mascota de Kasei"
+              className="h-[420px] w-full rounded-[28px] object-contain sm:h-[560px]"
             />
           </div>
           <div className="absolute -bottom-5 left-5 right-5 rounded-[28px] bg-white p-5 shadow-[0_18px_45px_rgba(30,58,95,0.14)] sm:left-8 sm:right-8">
