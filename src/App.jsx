@@ -12,6 +12,7 @@ import Empleadas from './pages/Empleadas'
 import PerfilEmpleada from './pages/PerfilEmpleada'
 import MiPerfil from './pages/MiPerfil'
 import MisFavoritos from './pages/MisFavoritos'
+import Landing from './pages/Landing'
 
 /* Redirige a /welcome si no hizo el onboarding todavía */
 function OnboardingGate({ children }) {
@@ -23,16 +24,19 @@ function OnboardingGate({ children }) {
 
 function AppShell() {
   const location = useLocation()
-  const isOnboarding = location.pathname === '/welcome'
+  const isOnboarding = location.pathname === '/welcome' || location.pathname === '/empleada-landing'
   const [splashDone, setSplashDone] = useState(false)
 
   return (
     <div className="min-h-screen flex flex-col">
-      {!splashDone && <SplashScreen onDone={() => setSplashDone(true)} />}
+      {!splashDone && !isOnboarding && <SplashScreen onDone={() => setSplashDone(true)} />}
 
       {!isOnboarding && <Navbar />}
       <main className="flex-1">
         <Routes>
+          {/* Landing para empleadas — pública, sin navbar ni splash */}
+          <Route path="/empleada-landing" element={<Landing />} />
+
           {/* Onboarding — full screen, sin navbar */}
           <Route path="/welcome" element={<Onboarding />} />
 
