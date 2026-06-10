@@ -15,11 +15,11 @@ function BackLink() {
 
 export default function PerfilEmpleada() {
   const { id } = useParams()
-  const { users, user } = useApp()
+  const { empleadas, user } = useApp()
   const navigate = useNavigate()
   const [showRefs, setShowRefs] = useState(false)
 
-  const emp = users.find(u => u.id === id && u.tipo === 'empleada')
+  const emp = empleadas.find(u => u.id === id)
 
   if (!emp) {
     return (
