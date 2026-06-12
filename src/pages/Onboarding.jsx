@@ -181,14 +181,6 @@ const SLIDES = [
   },
   {
     id: 2,
-    visual: <MascotImg src="/mascot/llave-escudo.png" alt="Llave con escudo" />,
-    fallback: <KeySearching />,
-    eyebrow: 'Sin intermediarios',
-    title: 'Perfiles verificados,\nreferencias reales',
-    desc: 'Filtrá por zona, tipo de servicio y disponibilidad. Sin boca a boca, sin complicaciones.',
-  },
-  {
-    id: 3,
     visual: <MascotImg src="/mascot/llave-telefono.png" alt="Llave con teléfono" />,
     fallback: <KeyThumbsUp />,
     eyebrow: 'Simple y directo',
