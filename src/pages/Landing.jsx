@@ -211,7 +211,7 @@ function App() {
             {perfilEmpleada ? (
               <button
                 onClick={() => { setEditando(true); document.getElementById('perfil-section')?.scrollIntoView({ behavior: 'smooth' }) }}
-                className="hidden sm:flex items-center gap-2 text-sm font-medium text-[#1E3A5F] hover:text-[#3B82F6] transition"
+                className="flex items-center gap-2 text-sm font-medium text-[#1E3A5F] hover:text-[#3B82F6] transition"
               >
                 {perfilEmpleada.foto ? (
                   <img src={perfilEmpleada.foto} alt={user.nombre} className="w-7 h-7 rounded-full object-cover" />
@@ -223,7 +223,7 @@ function App() {
                 {user.nombre}
               </button>
             ) : (
-              <span className="hidden text-sm font-medium text-[#1E3A5F] sm:block">{user.nombre}</span>
+              <span className="text-sm font-medium text-[#1E3A5F]">{user.nombre}</span>
             )}
             <button
               onClick={logout}
