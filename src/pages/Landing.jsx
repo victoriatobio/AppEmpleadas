@@ -300,22 +300,6 @@ function App() {
         </motion.div>
       </section>
 
-      <section className="border-y border-[#EAF3FF] bg-[#F8FBFF] px-5 py-12 sm:px-8">
-        <div className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-3">
-          {[
-            ['Ordená tu experiencia', FileText],
-            ['Mostrá tus referencias', Check],
-            ['Accedé a más oportunidades', HeartHandshake],
-          ].map(([text, Icon]) => (
-            <div key={text} className="flex items-center gap-3 rounded-3xl bg-white p-5 shadow-sm">
-              <span className="flex size-10 items-center justify-center rounded-2xl bg-[#EAF3FF] text-[#3B82F6]">
-                <Icon size={20} />
-              </span>
-              <span className="font-semibold">{text}</span>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {!user && (
         <section id="login" className="px-5 py-12 sm:px-8">
