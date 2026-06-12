@@ -22,7 +22,7 @@ export default function PerfilCard({ empleada }) {
       {/* Heart button */}
       <button
         onClick={handleFav}
-        className="absolute top-3.5 right-3.5 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-white/80 backdrop-blur-sm border border-zinc-100 transition-all hover:scale-110 active:scale-95 shadow-sm"
+        className="absolute top-3.5 right-3.5 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-white border border-zinc-100 transition-all hover:scale-110 active:scale-95 shadow-sm"
         aria-label={isFav ? 'Quitar de favoritas' : 'Guardar como favorita'}
       >
         <svg className="w-4 h-4" viewBox="0 0 24 24" fill={isFav ? '#F43F5E' : 'none'} stroke={isFav ? '#F43F5E' : '#A1A1AA'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
