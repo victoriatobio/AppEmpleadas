@@ -1,11 +1,19 @@
+import { useRef } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, Check, FileText, HeartHandshake, Sparkles } from 'lucide-react'
 
-const googleFormUrl =
-  'https://docs.google.com/forms/d/e/1FAIpQLSdpYyan_GAR5Lg1nPDeacn9pPcVMJuLcI3BbFUAqPyVxYQ-UQ/viewform'
 const formUrl = '#form-placeholder'
 
 function App() {
+  const iframeLoadCount = useRef(0)
+
+  function handleIframeLoad() {
+    iframeLoadCount.current += 1
+    if (iframeLoadCount.current > 1) {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
+
   return (
     <main className="min-h-screen bg-white text-[#1E3A5F]">
       <header className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 sm:px-8">
@@ -115,6 +123,7 @@ function App() {
               frameBorder="0"
               marginHeight="0"
               marginWidth="0"
+              onLoad={handleIframeLoad}
             >
               Cargando…
             </iframe>
