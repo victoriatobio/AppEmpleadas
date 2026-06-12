@@ -17,7 +17,7 @@ function App() {
           href={formUrl}
           className="hidden rounded-full bg-[#1E3A5F] px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[#152D4A] sm:inline-flex"
         >
-          ¡Quiero conseguir trabajo!
+          Creá tu CV en Kasei
         </a>
       </header>
 
@@ -46,7 +46,7 @@ function App() {
               href={formUrl}
               className="inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-[#3B82F6] px-10 text-base font-semibold text-white shadow-[0_18px_38px_rgba(59,130,246,0.24)] transition hover:-translate-y-0.5 hover:bg-[#256FE6] sm:w-auto"
             >
-              ¡Quiero conseguir trabajo!
+              Creá tu CV en Kasei
               <ArrowRight size={19} strokeWidth={2.4} />
             </a>
           </div>
