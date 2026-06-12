@@ -7,7 +7,7 @@ function MascotImg({ src, alt }) {
     <img
       src={src}
       alt={alt}
-      className="w-full max-w-[150px] mx-auto drop-shadow-md select-none"
+      className="w-full max-w-[120px] mx-auto drop-shadow-md select-none"
       draggable={false}
     />
   )
@@ -228,9 +228,10 @@ export default function Onboarding() {
         </button>
       </div>
 
-      {/* Slide content */}
+      {/* Slide content — tap anywhere to advance */}
       <div
-        className="flex-1 flex flex-col items-center justify-center px-8 pb-4"
+        onClick={next}
+        className="flex-1 flex flex-col items-center justify-center px-8 pb-2 cursor-pointer select-none"
         style={{
           opacity: exiting ? 0 : 1,
           transform: exiting ? 'translateX(-24px)' : 'translateX(0)',
@@ -238,7 +239,7 @@ export default function Onboarding() {
         }}
       >
         {/* Ilustración */}
-        <div className="w-full max-w-xs flex items-center justify-center mb-8">
+        <div className="w-full max-w-xs flex items-center justify-center mb-6">
           {slide.visual}
         </div>
 
@@ -247,7 +248,7 @@ export default function Onboarding() {
           <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-2">
             {slide.eyebrow}
           </p>
-          <h1 className="text-3xl font-bold text-zinc-900 leading-tight tracking-tight whitespace-pre-line mb-4">
+          <h1 className="text-3xl font-bold text-zinc-900 leading-tight tracking-tight whitespace-pre-line mb-3">
             {slide.title}
           </h1>
           <p className="text-zinc-500 text-[15px] leading-relaxed">
@@ -257,7 +258,7 @@ export default function Onboarding() {
       </div>
 
       {/* Controles */}
-      <div className="px-8 pb-10 pt-2 flex flex-col items-center gap-5">
+      <div className="px-8 pb-6 pt-2 flex flex-col items-center gap-3">
         {/* Dots */}
         <div className="flex gap-2">
           {SLIDES.map((_, i) => (
@@ -273,7 +274,7 @@ export default function Onboarding() {
         <div className="w-full max-w-xs space-y-2.5">
           <button
             onClick={next}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-2xl text-[15px] transition-all active:scale-[0.98]"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-2xl text-[15px] transition-all active:scale-[0.98]"
           >
             {isLast ? 'Empezar →' : 'Continuar'}
           </button>
@@ -281,7 +282,7 @@ export default function Onboarding() {
           {isLast && (
             <button
               onClick={() => finish('/registro?rol=empleada')}
-              className="w-full border border-zinc-200 hover:bg-zinc-50 text-zinc-600 font-medium py-3.5 rounded-2xl text-[15px] transition-all active:scale-[0.98]"
+              className="w-full border border-zinc-200 hover:bg-zinc-50 text-zinc-600 font-medium py-3 rounded-2xl text-[15px] transition-all active:scale-[0.98]"
             >
               Busco trabajo
             </button>
