@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowRight, Check, FileText, HeartHandshake, Sparkles, LogOut, Pencil } from 'lucide-react'
 import { useApp } from '../context/AppContext'
@@ -104,18 +103,6 @@ function EditarPerfilForm({ perfil, onSave, onCancel }) {
 
   return (
     <form onSubmit={handleSave} className="flex flex-col gap-5">
-      <div>
-        <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5 block">Foto (URL pública)</label>
-        <input
-          type="url" placeholder="https://..."
-          value={form.foto} onChange={e => setField('foto', e.target.value)}
-          className="w-full rounded-xl border border-zinc-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
-        {form.foto && (
-          <img src={form.foto} alt="preview" className="mt-2 w-14 h-14 rounded-full object-cover border border-zinc-200" onError={e => { e.target.style.display = 'none' }} />
-        )}
-      </div>
-
       <div>
         <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5 block">WhatsApp</label>
         <input
@@ -222,8 +209,8 @@ function App() {
         {user ? (
           <div className="flex items-center gap-3">
             {perfilEmpleada ? (
-              <Link
-                to={`/empleadas/${perfilEmpleada.id}`}
+              <button
+                onClick={() => { setEditando(true); document.getElementById('perfil-section')?.scrollIntoView({ behavior: 'smooth' }) }}
                 className="hidden sm:flex items-center gap-2 text-sm font-medium text-[#1E3A5F] hover:text-[#3B82F6] transition"
               >
                 {perfilEmpleada.foto ? (
@@ -234,7 +221,7 @@ function App() {
                   </span>
                 )}
                 {user.nombre}
-              </Link>
+              </button>
             ) : (
               <span className="hidden text-sm font-medium text-[#1E3A5F] sm:block">{user.nombre}</span>
             )}
@@ -346,7 +333,7 @@ function App() {
       )}
 
       {user && (
-        <section className="px-5 py-12 sm:px-8">
+        <section id="perfil-section" className="px-5 py-12 sm:px-8">
           <div className="mx-auto max-w-2xl rounded-[28px] border border-[#EAF3FF] bg-white p-8 shadow-sm">
             {perfilEmpleada ? (
               editando ? (
