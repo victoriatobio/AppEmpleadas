@@ -1,9 +1,17 @@
 import { motion } from 'framer-motion'
-import { ArrowRight, Check, FileText, HeartHandshake, Sparkles } from 'lucide-react'
+import { ArrowRight, Check, FileText, HeartHandshake, Sparkles, LogOut } from 'lucide-react'
+import { useApp } from '../context/AppContext'
+import GoogleBtn from '../components/GoogleBtn'
 
 const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScSZOapTbmUl48kHyJIYQMIH2tPmb4ml0RoFVmvlpYSL7vGqw/viewform'
 
 function App() {
+  const { user, sheetEmpleadas, logout } = useApp()
+
+  const perfilEmpleada = user
+    ? sheetEmpleadas.find(e => e.email?.toLowerCase() === user.email?.toLowerCase())
+    : null
+
   return (
     <main className="min-h-screen bg-white text-[#1E3A5F]">
       <header className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 sm:px-8">
@@ -13,12 +21,22 @@ function App() {
           </span>
           <span className="text-xl font-bold tracking-tight">Kasei</span>
         </a>
-        <a
-          href={formUrl}
-          className="hidden rounded-full bg-[#1E3A5F] px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[#152D4A] sm:inline-flex"
-        >
-          Creá tu CV en Kasei
-        </a>
+        {user ? (
+          <div className="flex items-center gap-3">
+            <span className="hidden text-sm font-medium text-[#1E3A5F] sm:block">{user.nombre}</span>
+            <button
+              onClick={logout}
+              className="flex items-center gap-2 rounded-full border border-[#1E3A5F]/20 px-4 py-2 text-sm font-medium text-[#1E3A5F] transition hover:bg-[#EAF3FF]"
+            >
+              <LogOut size={15} />
+              Salir
+            </button>
+          </div>
+        ) : (
+          <div className="hidden sm:block w-48">
+            <GoogleBtn tipo="empleada" label="Iniciar sesión" redirectTo="/empleada-landing" />
+          </div>
+        )}
       </header>
 
       <section id="inicio" className="mx-auto grid max-w-6xl gap-14 px-5 pb-20 pt-12 sm:px-8 lg:grid-cols-[1fr_0.92fr] lg:items-center lg:pb-28 lg:pt-20">
@@ -97,6 +115,47 @@ function App() {
           ))}
         </div>
       </section>
+
+      {user && (
+        <section className="px-5 py-12 sm:px-8">
+          <div className="mx-auto max-w-2xl rounded-[28px] border border-[#EAF3FF] bg-white p-8 shadow-sm">
+            {perfilEmpleada ? (
+              <>
+                <div className="flex items-center gap-4 mb-6">
+                  {perfilEmpleada.foto ? (
+                    <img src={perfilEmpleada.foto} alt={perfilEmpleada.nombre} className="w-16 h-16 rounded-full object-cover" />
+                  ) : (
+                    <div className="w-16 h-16 rounded-full bg-[#EAF3FF] flex items-center justify-center text-[#3B82F6] text-2xl font-bold">
+                      {perfilEmpleada.nombre.charAt(0)}
+                    </div>
+                  )}
+                  <div>
+                    <h2 className="text-xl font-semibold text-[#1E3A5F]">{perfilEmpleada.nombre}</h2>
+                    <p className="text-sm text-slate-500">{perfilEmpleada.zona} · {perfilEmpleada.modalidad}</p>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {perfilEmpleada.habilidades.map(h => (
+                    <span key={h} className="text-xs font-medium bg-[#EAF3FF] text-[#3B82F6] px-3 py-1 rounded-full">{h}</span>
+                  ))}
+                </div>
+                {perfilEmpleada.descripcion && (
+                  <p className="text-sm text-slate-600 leading-relaxed">{perfilEmpleada.descripcion}</p>
+                )}
+              </>
+            ) : (
+              <div className="text-center py-4">
+                <p className="font-semibold text-[#1E3A5F]">Hola, {user.nombre}</p>
+                <p className="text-sm text-slate-500 mt-2">Todavía no completaste el formulario. ¡Creá tu CV para aparecer en Kasei!</p>
+                <a href={formUrl} target="_blank" rel="noopener noreferrer"
+                  className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#3B82F6] px-8 py-3 text-sm font-semibold text-white transition hover:bg-[#256FE6]">
+                  Completar formulario <ArrowRight size={16} />
+                </a>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
 
       <section id="form-placeholder" className="px-5 py-16 sm:px-8">
         <div className="mx-auto max-w-4xl rounded-[36px] bg-[#1E3A5F] p-10 text-center text-white shadow-[0_30px_90px_rgba(30,58,95,0.2)] sm:p-14 lg:p-20">
