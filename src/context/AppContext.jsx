@@ -9,6 +9,7 @@ const STORAGE_KEYS = {
   mensajes: 'kasei_mensajes',
   favorites: 'kasei_favorites',
   emailCreds: 'kasei_email_creds',
+  sheetEdits: 'kasei_sheet_edits',
 }
 
 function loadStorage(key, fallback) {
@@ -47,6 +48,7 @@ export function AppProvider({ children }) {
     return merged
   })
   const [sheetEmpleadas, setSheetEmpleadas] = useState([])
+  const [sheetEdits, setSheetEdits] = useState(() => loadStorage(STORAGE_KEYS.sheetEdits, {}))
   const [mensajes, setMensajes] = useState(() => loadStorage(STORAGE_KEYS.mensajes, initialMensajes))
   const [favorites, setFavorites] = useState(() => loadStorage(STORAGE_KEYS.favorites, []))
 
@@ -54,7 +56,14 @@ export function AppProvider({ children }) {
     if (!SHEETS_API) return
     fetch(SHEETS_API)
       .then(r => r.json())
-      .then(data => setSheetEmpleadas(Array.isArray(data) ? data : []))
+      .then(data => {
+        const arr = Array.isArray(data) ? data : []
+        const edits = loadStorage(STORAGE_KEYS.sheetEdits, {})
+        setSheetEmpleadas(arr.map(e => {
+          const saved = edits[e.email?.toLowerCase()]
+          return saved ? { ...e, ...saved } : e
+        }))
+      })
       .catch(() => {})
   }, [])
 
@@ -62,6 +71,7 @@ export function AppProvider({ children }) {
   useEffect(() => { saveStorage(STORAGE_KEYS.users, users) }, [users])
   useEffect(() => { saveStorage(STORAGE_KEYS.mensajes, mensajes) }, [mensajes])
   useEffect(() => { saveStorage(STORAGE_KEYS.favorites, favorites) }, [favorites])
+  useEffect(() => { saveStorage(STORAGE_KEYS.sheetEdits, sheetEdits) }, [sheetEdits])
 
   function toggleFavorite(id) {
     setFavorites(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id])
@@ -154,6 +164,15 @@ export function AppProvider({ children }) {
     return { ok: true, user: newUser }
   }
 
+  function updateSheetEmpleada(email, updates) {
+    const emailLow = email.toLowerCase()
+    const newEdits = { ...sheetEdits, [emailLow]: { ...(sheetEdits[emailLow] || {}), ...updates } }
+    setSheetEdits(newEdits)
+    setSheetEmpleadas(prev => prev.map(e =>
+      e.email?.toLowerCase() === emailLow ? { ...e, ...updates } : e
+    ))
+  }
+
   function updateProfile(updates) {
     const updatedUser = { ...user, ...updates }
     setUser(updatedUser)
@@ -185,7 +204,7 @@ export function AppProvider({ children }) {
   const unreadCount = mensajes.filter(m => m.toId === user?.id && !m.read).length
 
   return (
-    <AppContext.Provider value={{ user, users, empleadas, sheetEmpleadas, mensajes, unreadCount, favorites, login, loginWithGoogle, loginEmpleadaEmail, registerEmpleadaPassword, logout, register, updateProfile, sendMessage, markRead, toggleFavorite }}>
+    <AppContext.Provider value={{ user, users, empleadas, sheetEmpleadas, mensajes, unreadCount, favorites, login, loginWithGoogle, loginEmpleadaEmail, registerEmpleadaPassword, logout, register, updateProfile, updateSheetEmpleada, sendMessage, markRead, toggleFavorite }}>
       {children}
     </AppContext.Provider>
   )

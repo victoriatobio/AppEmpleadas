@@ -1,16 +1,27 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, Check, FileText, HeartHandshake, Sparkles, LogOut } from 'lucide-react'
+import { ArrowRight, Check, FileText, HeartHandshake, Sparkles, LogOut, Pencil } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 import GoogleBtn from '../components/GoogleBtn'
 
 const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScSZOapTbmUl48kHyJIYQMIH2tPmb4ml0RoFVmvlpYSL7vGqw/viewform'
 
+const HABILIDADES_OPTS = [
+  'Limpieza profunda', 'Plancha', 'Organización', 'Cocina casera',
+  'Cuidado de niños', 'Cuidado de mascotas', 'Cuidado geriátrico',
+]
+const MODALIDADES_OPTS = ['Por horas', 'Cama adentro', 'Cama afuera']
+const DIAS_OPTS = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo']
+const DIAS_LABEL = {
+  lunes: 'Lunes', martes: 'Martes', miercoles: 'Miércoles',
+  jueves: 'Jueves', viernes: 'Viernes', sabado: 'Sábado', domingo: 'Domingo',
+}
+
 function LoginForm() {
   const { loginEmpleadaEmail, registerEmpleadaPassword, sheetEmpleadas } = useApp()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [modo, setModo] = useState('login') // 'login' | 'register'
+  const [modo, setModo] = useState('login')
   const [error, setError] = useState('')
 
   function handleSubmit(e) {
@@ -52,8 +63,147 @@ function LoginForm() {
   )
 }
 
+function EditarPerfilForm({ perfil, onSave, onCancel }) {
+  const { updateSheetEmpleada } = useApp()
+  const [form, setForm] = useState({
+    foto: perfil.foto || '',
+    whatsapp: perfil.whatsapp || '',
+    zona: perfil.zona || '',
+    habilidades: perfil.habilidades || [],
+    modalidad: perfil.modalidad || 'Por horas',
+    disponibilidad: perfil.disponibilidad || {},
+    descripcion: perfil.descripcion || '',
+    experiencia: perfil.experiencia || 0,
+  })
+
+  function setField(key, val) { setForm(f => ({ ...f, [key]: val })) }
+
+  function toggleHab(h) {
+    setForm(f => ({
+      ...f,
+      habilidades: f.habilidades.includes(h)
+        ? f.habilidades.filter(x => x !== h)
+        : [...f.habilidades, h],
+    }))
+  }
+
+  function toggleDia(dia) {
+    setForm(f => ({ ...f, disponibilidad: { ...f.disponibilidad, [dia]: !f.disponibilidad[dia] } }))
+  }
+
+  function handleSave(e) {
+    e.preventDefault()
+    updateSheetEmpleada(perfil.email, {
+      ...form,
+      servicios: form.habilidades,
+      barrios: [form.zona],
+    })
+    onSave()
+  }
+
+  return (
+    <form onSubmit={handleSave} className="flex flex-col gap-5">
+      <div>
+        <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5 block">Foto (URL pública)</label>
+        <input
+          type="url" placeholder="https://..."
+          value={form.foto} onChange={e => setField('foto', e.target.value)}
+          className="w-full rounded-xl border border-zinc-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+        {form.foto && (
+          <img src={form.foto} alt="preview" className="mt-2 w-14 h-14 rounded-full object-cover border border-zinc-200" onError={e => { e.target.style.display = 'none' }} />
+        )}
+      </div>
+
+      <div>
+        <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5 block">WhatsApp</label>
+        <input
+          type="tel" placeholder="1112345678"
+          value={form.whatsapp} onChange={e => setField('whatsapp', e.target.value)}
+          className="w-full rounded-xl border border-zinc-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+      </div>
+
+      <div>
+        <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5 block">Zona</label>
+        <input
+          type="text" placeholder="Palermo, Belgrano..."
+          value={form.zona} onChange={e => setField('zona', e.target.value)}
+          className="w-full rounded-xl border border-zinc-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+      </div>
+
+      <div>
+        <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5 block">Habilidades</label>
+        <div className="flex flex-wrap gap-2">
+          {HABILIDADES_OPTS.map(h => (
+            <button type="button" key={h} onClick={() => toggleHab(h)}
+              className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${form.habilidades.includes(h) ? 'bg-[#3B82F6] text-white border-[#3B82F6]' : 'bg-white text-zinc-600 border-zinc-200 hover:border-blue-300'}`}>
+              {h}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5 block">Modalidad</label>
+        <div className="flex flex-wrap gap-2">
+          {MODALIDADES_OPTS.map(m => (
+            <button type="button" key={m} onClick={() => setField('modalidad', m)}
+              className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${form.modalidad === m ? 'bg-[#3B82F6] text-white border-[#3B82F6]' : 'bg-white text-zinc-600 border-zinc-200 hover:border-blue-300'}`}>
+              {m}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5 block">Días disponibles</label>
+        <div className="flex flex-wrap gap-2">
+          {DIAS_OPTS.map(dia => (
+            <button type="button" key={dia} onClick={() => toggleDia(dia)}
+              className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${form.disponibilidad[dia] ? 'bg-[#3B82F6] text-white border-[#3B82F6]' : 'bg-white text-zinc-600 border-zinc-200 hover:border-blue-300'}`}>
+              {DIAS_LABEL[dia]}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5 block">Descripción</label>
+        <textarea
+          rows={3} placeholder="Contá sobre vos y tu experiencia..."
+          value={form.descripcion} onChange={e => setField('descripcion', e.target.value)}
+          className="w-full rounded-xl border border-zinc-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
+        />
+      </div>
+
+      <div>
+        <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5 block">Años de experiencia</label>
+        <input
+          type="number" min={0} max={40}
+          value={form.experiencia} onChange={e => setField('experiencia', parseInt(e.target.value) || 0)}
+          className="w-32 rounded-xl border border-zinc-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+      </div>
+
+      <div className="flex gap-3 pt-2">
+        <button type="submit"
+          className="flex-1 rounded-xl bg-[#1E3A5F] py-2.5 text-sm font-semibold text-white hover:bg-[#152D4A] transition">
+          Guardar cambios
+        </button>
+        <button type="button" onClick={onCancel}
+          className="px-6 rounded-xl border border-zinc-200 text-sm text-zinc-600 hover:bg-zinc-50 transition">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  )
+}
+
 function App() {
   const { user, sheetEmpleadas, logout } = useApp()
+  const [editando, setEditando] = useState(false)
 
   const perfilEmpleada = user
     ? sheetEmpleadas.find(e => e.email?.toLowerCase() === user.email?.toLowerCase())
@@ -182,29 +332,47 @@ function App() {
         <section className="px-5 py-12 sm:px-8">
           <div className="mx-auto max-w-2xl rounded-[28px] border border-[#EAF3FF] bg-white p-8 shadow-sm">
             {perfilEmpleada ? (
-              <>
-                <div className="flex items-center gap-4 mb-6">
-                  {perfilEmpleada.foto ? (
-                    <img src={perfilEmpleada.foto} alt={perfilEmpleada.nombre} className="w-16 h-16 rounded-full object-cover" />
-                  ) : (
-                    <div className="w-16 h-16 rounded-full bg-[#EAF3FF] flex items-center justify-center text-[#3B82F6] text-2xl font-bold">
-                      {perfilEmpleada.nombre.charAt(0)}
+              editando ? (
+                <>
+                  <h2 className="text-lg font-semibold text-[#1E3A5F] mb-6">Editar perfil</h2>
+                  <EditarPerfilForm
+                    perfil={perfilEmpleada}
+                    onSave={() => setEditando(false)}
+                    onCancel={() => setEditando(false)}
+                  />
+                </>
+              ) : (
+                <>
+                  <div className="flex items-center gap-4 mb-6">
+                    {perfilEmpleada.foto ? (
+                      <img src={perfilEmpleada.foto} alt={perfilEmpleada.nombre} className="w-16 h-16 rounded-full object-cover" />
+                    ) : (
+                      <div className="w-16 h-16 rounded-full bg-[#EAF3FF] flex items-center justify-center text-[#3B82F6] text-2xl font-bold">
+                        {perfilEmpleada.nombre.charAt(0)}
+                      </div>
+                    )}
+                    <div className="flex-1">
+                      <h2 className="text-xl font-semibold text-[#1E3A5F]">{perfilEmpleada.nombre}</h2>
+                      <p className="text-sm text-slate-500">{perfilEmpleada.zona} · {perfilEmpleada.modalidad}</p>
                     </div>
-                  )}
-                  <div>
-                    <h2 className="text-xl font-semibold text-[#1E3A5F]">{perfilEmpleada.nombre}</h2>
-                    <p className="text-sm text-slate-500">{perfilEmpleada.zona} · {perfilEmpleada.modalidad}</p>
+                    <button
+                      onClick={() => setEditando(true)}
+                      className="flex items-center gap-2 rounded-full border border-[#1E3A5F]/20 px-4 py-2 text-sm font-medium text-[#1E3A5F] transition hover:bg-[#EAF3FF]"
+                    >
+                      <Pencil size={14} />
+                      Editar
+                    </button>
                   </div>
-                </div>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {perfilEmpleada.habilidades.map(h => (
-                    <span key={h} className="text-xs font-medium bg-[#EAF3FF] text-[#3B82F6] px-3 py-1 rounded-full">{h}</span>
-                  ))}
-                </div>
-                {perfilEmpleada.descripcion && (
-                  <p className="text-sm text-slate-600 leading-relaxed">{perfilEmpleada.descripcion}</p>
-                )}
-              </>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {perfilEmpleada.habilidades.map(h => (
+                      <span key={h} className="text-xs font-medium bg-[#EAF3FF] text-[#3B82F6] px-3 py-1 rounded-full">{h}</span>
+                    ))}
+                  </div>
+                  {perfilEmpleada.descripcion && (
+                    <p className="text-sm text-slate-600 leading-relaxed">{perfilEmpleada.descripcion}</p>
+                  )}
+                </>
+              )
             ) : (
               <div className="text-center py-4">
                 <p className="font-semibold text-[#1E3A5F]">Hola, {user.nombre}</p>
