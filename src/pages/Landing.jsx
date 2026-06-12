@@ -1,19 +1,9 @@
-import { useRef } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, Check, FileText, HeartHandshake, Sparkles } from 'lucide-react'
 
-const formUrl = '#form-placeholder'
+const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScSZOapTbmUl48kHyJIYQMIH2tPmb4ml0RoFVmvlpYSL7vGqw/viewform'
 
 function App() {
-  const iframeLoadCount = useRef(0)
-
-  function handleIframeLoad() {
-    iframeLoadCount.current += 1
-    if (iframeLoadCount.current > 1) {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    }
-  }
-
   return (
     <main className="min-h-screen bg-white text-[#1E3A5F]">
       <header className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 sm:px-8">
@@ -109,25 +99,21 @@ function App() {
       </section>
 
       <section id="form-placeholder" className="px-5 py-16 sm:px-8">
-        <div className="mx-auto max-w-4xl rounded-[36px] bg-[#1E3A5F] p-5 text-center text-white shadow-[0_30px_90px_rgba(30,58,95,0.2)] sm:p-8 lg:p-10">
+        <div className="mx-auto max-w-4xl rounded-[36px] bg-[#1E3A5F] p-10 text-center text-white shadow-[0_30px_90px_rgba(30,58,95,0.2)] sm:p-14 lg:p-20">
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#BBD7FF]">Formulario</p>
           <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">Creá tu CV en Kasei</h2>
           <p className="mx-auto mt-4 max-w-xl leading-8 text-blue-50">
             Completá tus datos para que podamos generar tu perfil laboral.
           </p>
-          <div className="mt-8 rounded-[28px] bg-white overflow-hidden shadow-[0_20px_55px_rgba(0,0,0,0.18)]">
-            <iframe
-              src="https://docs.google.com/forms/d/e/1FAIpQLScSZOapTbmUl48kHyJIYQMIH2tPmb4ml0RoFVmvlpYSL7vGqw/viewform?embedded=true"
-              width="100%"
-              style={{ height: '80vh', minHeight: '500px' }}
-              frameBorder="0"
-              marginHeight="0"
-              marginWidth="0"
-              onLoad={handleIframeLoad}
-            >
-              Cargando…
-            </iframe>
-          </div>
+          <a
+            href={formUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-10 inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-[#3B82F6] px-10 text-base font-semibold text-white shadow-[0_18px_38px_rgba(59,130,246,0.35)] transition hover:-translate-y-0.5 hover:bg-[#256FE6]"
+          >
+            Completar formulario
+            <ArrowRight size={19} strokeWidth={2.4} />
+          </a>
         </div>
       </section>
     </main>
