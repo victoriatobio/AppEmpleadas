@@ -53,7 +53,7 @@ export default function Navbar() {
     }`
 
   return (
-    <nav className="bg-white/80 backdrop-blur-md border-b border-zinc-100 sticky top-0 z-50">
+    <nav className="bg-white border-b border-zinc-100 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-5 sm:px-8">
         <div className="flex items-center justify-between h-14">
           <Link to="/"><KaseiLogo /></Link>
