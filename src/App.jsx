@@ -32,7 +32,7 @@ function AppShell() {
       {!splashDone && !isOnboarding && <SplashScreen onDone={() => setSplashDone(true)} />}
 
       {!isOnboarding && <Navbar />}
-      <main className="flex-1">
+      <main className={`flex-1 ${!isOnboarding ? 'pt-14' : ''}`}>
         <Routes>
           {/* Landing para empleadas — pública, sin navbar ni splash */}
           <Route path="/empleada-landing" element={<Landing />} />
