@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowRight, Check, FileText, HeartHandshake, Sparkles, LogOut, Pencil } from 'lucide-react'
 import { useApp } from '../context/AppContext'
@@ -220,7 +221,23 @@ function App() {
         </a>
         {user ? (
           <div className="flex items-center gap-3">
-            <span className="hidden text-sm font-medium text-[#1E3A5F] sm:block">{user.nombre}</span>
+            {perfilEmpleada ? (
+              <Link
+                to={`/empleadas/${perfilEmpleada.id}`}
+                className="hidden sm:flex items-center gap-2 text-sm font-medium text-[#1E3A5F] hover:text-[#3B82F6] transition"
+              >
+                {perfilEmpleada.foto ? (
+                  <img src={perfilEmpleada.foto} alt={user.nombre} className="w-7 h-7 rounded-full object-cover" />
+                ) : (
+                  <span className="w-7 h-7 rounded-full bg-[#EAF3FF] flex items-center justify-center text-[#3B82F6] text-xs font-bold">
+                    {user.nombre.charAt(0)}
+                  </span>
+                )}
+                {user.nombre}
+              </Link>
+            ) : (
+              <span className="hidden text-sm font-medium text-[#1E3A5F] sm:block">{user.nombre}</span>
+            )}
             <button
               onClick={logout}
               className="flex items-center gap-2 rounded-full border border-[#1E3A5F]/20 px-4 py-2 text-sm font-medium text-[#1E3A5F] transition hover:bg-[#EAF3FF]"
