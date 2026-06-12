@@ -29,10 +29,18 @@ export function AppProvider({ children }) {
   const [user, setUser] = useState(() => loadStorage(STORAGE_KEYS.user, null))
   const [users, setUsers] = useState(() => {
     const saved = loadStorage(STORAGE_KEYS.users, null)
-    if (saved) return saved
-    const all = [...mockEmpleadas, ...mockEmpleadoras]
-    saveStorage(STORAGE_KEYS.users, all)
-    return all
+    const allMock = [...mockEmpleadas, ...mockEmpleadoras]
+    if (!saved) {
+      saveStorage(STORAGE_KEYS.users, allMock)
+      return allMock
+    }
+    // Merge: agrega cualquier mock que no esté en localStorage (nuevos perfiles)
+    const merged = [...saved]
+    for (const mock of allMock) {
+      if (!merged.some(u => u.id === mock.id)) merged.push(mock)
+    }
+    if (merged.length !== saved.length) saveStorage(STORAGE_KEYS.users, merged)
+    return merged
   })
   const [sheetEmpleadas, setSheetEmpleadas] = useState([])
   const [mensajes, setMensajes] = useState(() => loadStorage(STORAGE_KEYS.mensajes, initialMensajes))

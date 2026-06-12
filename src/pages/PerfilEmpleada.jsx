@@ -15,7 +15,7 @@ function BackLink() {
 
 export default function PerfilEmpleada() {
   const { id } = useParams()
-  const { empleadas, user } = useApp()
+  const { empleadas, user, favorites, toggleFavorite } = useApp()
   const navigate = useNavigate()
   const [showRefs, setShowRefs] = useState(false)
 
@@ -31,6 +31,12 @@ export default function PerfilEmpleada() {
   }
 
   const isOwn = user?.id === emp.id
+  const isFav = !!user && favorites.includes(emp.id)
+
+  function handleFav() {
+    if (!user) { navigate('/login'); return }
+    toggleFavorite(emp.id)
+  }
 
   return (
     <div className="max-w-3xl mx-auto px-5 sm:px-8 py-10">
@@ -53,6 +59,17 @@ export default function PerfilEmpleada() {
                 <p className="text-sm text-zinc-400 mt-0.5">{emp.zona} · {emp.modalidad}</p>
               </div>
               <div className="flex flex-col items-end gap-2">
+                {!isOwn && (
+                  <button
+                    onClick={handleFav}
+                    className="w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 bg-white hover:scale-110 active:scale-95 transition-all shadow-sm"
+                    aria-label={isFav ? 'Quitar de favoritas' : 'Guardar como favorita'}
+                  >
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill={isFav ? '#F43F5E' : 'none'} stroke={isFav ? '#F43F5E' : '#A1A1AA'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                    </svg>
+                  </button>
+                )}
               </div>
             </div>
             <div className="flex flex-wrap gap-1.5 mt-3">
