@@ -18,7 +18,7 @@ export default function BottomNav() {
     <>
       <div className="sm:hidden h-24" />
 
-      <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-zinc-100"
+      <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-zinc-100"
         style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
       >
         <div className="flex items-end justify-around h-16 px-4">
