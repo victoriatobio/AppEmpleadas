@@ -219,7 +219,7 @@ function App() {
         </section>
       )}
 
-      <section id="form-placeholder" className="px-5 py-16 sm:px-8">
+      {(!user || !perfilEmpleada) && <section id="form-placeholder" className="px-5 py-16 sm:px-8">
         <div className="mx-auto max-w-4xl rounded-[36px] bg-[#1E3A5F] p-10 text-center text-white shadow-[0_30px_90px_rgba(30,58,95,0.2)] sm:p-14 lg:p-20">
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#BBD7FF]">Formulario</p>
           <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">Creá tu CV en Kasei</h2>
@@ -236,7 +236,7 @@ function App() {
             <ArrowRight size={19} strokeWidth={2.4} />
           </a>
         </div>
-      </section>
+      </section>}
     </main>
   )
 }
