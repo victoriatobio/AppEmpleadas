@@ -119,7 +119,7 @@ function App() {
             <iframe
               src="https://docs.google.com/forms/d/e/1FAIpQLScSZOapTbmUl48kHyJIYQMIH2tPmb4ml0RoFVmvlpYSL7vGqw/viewform?embedded=true"
               width="100%"
-              height="6357"
+              style={{ height: '80vh', minHeight: '500px' }}
               frameBorder="0"
               marginHeight="0"
               marginWidth="0"
