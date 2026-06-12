@@ -18,6 +18,7 @@ export default function PerfilEmpleada() {
   const { empleadas, user, favorites, toggleFavorite } = useApp()
   const navigate = useNavigate()
   const [showRefs, setShowRefs] = useState(false)
+  const [imgErr, setImgErr] = useState(false)
 
   const emp = empleadas.find(u => u.id === id)
 
@@ -45,8 +46,8 @@ export default function PerfilEmpleada() {
       {/* Header card */}
       <div className="bg-white rounded-2xl border border-zinc-100 p-6 mb-5">
         <div className="flex gap-5 items-start">
-          {emp.foto ? (
-            <img src={emp.foto} alt={emp.nombre} className="w-20 h-20 rounded-2xl object-cover shrink-0 shadow-sm" />
+          {emp.foto && !imgErr ? (
+            <img src={emp.foto} alt={emp.nombre} className="w-20 h-20 rounded-2xl object-cover shrink-0 shadow-sm" onError={() => setImgErr(true)} />
           ) : (
             <div className="w-20 h-20 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 text-2xl font-bold shrink-0">
               {emp.nombre.charAt(0)}

@@ -34,12 +34,15 @@ export function AppProvider({ children }) {
       saveStorage(STORAGE_KEYS.users, allMock)
       return allMock
     }
-    // Merge: agrega cualquier mock que no esté en localStorage (nuevos perfiles)
-    const merged = [...saved]
+    // Merge: agrega nuevos mocks y actualiza la foto de los existentes
+    const merged = saved.map(u => {
+      const mock = allMock.find(m => m.id === u.id)
+      return mock ? { ...u, foto: mock.foto } : u
+    })
     for (const mock of allMock) {
       if (!merged.some(u => u.id === mock.id)) merged.push(mock)
     }
-    if (merged.length !== saved.length) saveStorage(STORAGE_KEYS.users, merged)
+    saveStorage(STORAGE_KEYS.users, merged)
     return merged
   })
   const [sheetEmpleadas, setSheetEmpleadas] = useState([])

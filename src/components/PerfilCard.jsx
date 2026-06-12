@@ -9,6 +9,7 @@ export default function PerfilCard({ empleada }) {
   const { favorites, toggleFavorite, user } = useApp()
   const navigate = useNavigate()
   const isFav = !!user && favorites.includes(empleada.id)
+  const [imgErr, setImgErr] = React.useState(false)
 
   function handleFav(e) {
     e.preventDefault()
@@ -33,11 +34,12 @@ export default function PerfilCard({ empleada }) {
       <Link to={`/empleadas/${empleada.id}`} className="block p-5">
         <div className="flex gap-4 items-start">
           {/* Avatar */}
-          {empleada.foto ? (
+          {empleada.foto && !imgErr ? (
             <img
               src={empleada.foto}
               alt={empleada.nombre}
               className="w-14 h-14 rounded-full object-cover shrink-0 ring-2 ring-white shadow-sm"
+              onError={() => setImgErr(true)}
             />
           ) : (
             <div className="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 text-lg font-semibold shrink-0">
