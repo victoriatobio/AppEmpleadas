@@ -220,7 +220,7 @@ function App() {
                     {user.nombre.charAt(0)}
                   </span>
                 )}
-                {user.nombre}
+                <span className="hidden sm:inline">{user.nombre}</span>
               </button>
             ) : (
               <span className="text-sm font-medium text-[#1E3A5F]">{user.nombre}</span>
