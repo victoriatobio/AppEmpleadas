@@ -1,9 +1,56 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, Check, FileText, HeartHandshake, Sparkles, LogOut } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 import GoogleBtn from '../components/GoogleBtn'
 
 const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScSZOapTbmUl48kHyJIYQMIH2tPmb4ml0RoFVmvlpYSL7vGqw/viewform'
+
+function LoginForm() {
+  const { loginEmpleadaEmail, registerEmpleadaPassword, sheetEmpleadas } = useApp()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [modo, setModo] = useState('login') // 'login' | 'register'
+  const [error, setError] = useState('')
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    setError('')
+    if (modo === 'login') {
+      const res = loginEmpleadaEmail(email, password, sheetEmpleadas)
+      if (res.needsRegister) { setModo('register'); setError('Primera vez que ingresás. Creá una contraseña.'); return }
+      if (!res.ok) { setError(res.error); return }
+    } else {
+      if (password.length < 6) { setError('La contraseña debe tener al menos 6 caracteres'); return }
+      const res = registerEmpleadaPassword(email, password, sheetEmpleadas)
+      if (!res.ok) { setError(res.error); return }
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3 w-full max-w-xs">
+      <input
+        type="email" required placeholder="Tu email"
+        value={email} onChange={e => setEmail(e.target.value)}
+        className="w-full rounded-xl border border-zinc-200 px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+      />
+      <input
+        type="password" required placeholder={modo === 'register' ? 'Creá una contraseña' : 'Contraseña'}
+        value={password} onChange={e => setPassword(e.target.value)}
+        className="w-full rounded-xl border border-zinc-200 px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+      />
+      {error && <p className="text-xs text-red-500">{error}</p>}
+      <button type="submit"
+        className="w-full rounded-xl bg-[#1E3A5F] py-2.5 text-sm font-semibold text-white transition hover:bg-[#152D4A]">
+        {modo === 'login' ? 'Iniciar sesión' : 'Crear contraseña'}
+      </button>
+      <button type="button" onClick={() => { setModo(m => m === 'login' ? 'register' : 'login'); setError('') }}
+        className="text-xs text-slate-400 hover:text-slate-600 transition">
+        {modo === 'login' ? '¿Primera vez? Creá tu contraseña' : 'Ya tengo contraseña'}
+      </button>
+    </form>
+  )
+}
 
 function App() {
   const { user, sheetEmpleadas, logout } = useApp()
@@ -33,9 +80,9 @@ function App() {
             </button>
           </div>
         ) : (
-          <div className="hidden sm:block w-48">
-            <GoogleBtn tipo="empleada" label="Iniciar sesión" redirectTo="/empleada-landing" />
-          </div>
+          <a href="#login" className="rounded-full bg-[#1E3A5F] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#152D4A]">
+            Iniciar sesión
+          </a>
         )}
       </header>
 
@@ -115,6 +162,21 @@ function App() {
           ))}
         </div>
       </section>
+
+      {!user && (
+        <section id="login" className="px-5 py-12 sm:px-8">
+          <div className="mx-auto max-w-sm rounded-[28px] border border-[#EAF3FF] bg-white p-8 shadow-sm">
+            <h2 className="text-xl font-semibold text-[#1E3A5F] mb-6 text-center">Ingresá a tu perfil</h2>
+            <GoogleBtn tipo="empleada" label="Continuar con Google" redirectTo="/empleada-landing" />
+            <div className="flex items-center gap-3 my-5">
+              <div className="flex-1 h-px bg-zinc-100" />
+              <span className="text-xs text-zinc-400">o con email</span>
+              <div className="flex-1 h-px bg-zinc-100" />
+            </div>
+            <LoginForm />
+          </div>
+        </section>
+      )}
 
       {user && (
         <section className="px-5 py-12 sm:px-8">

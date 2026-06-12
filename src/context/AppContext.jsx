@@ -8,6 +8,7 @@ const STORAGE_KEYS = {
   users: 'kasei_users',
   mensajes: 'kasei_mensajes',
   favorites: 'kasei_favorites',
+  emailCreds: 'kasei_email_creds',
 }
 
 function loadStorage(key, fallback) {
@@ -123,6 +124,36 @@ export function AppProvider({ children }) {
     return { ok: true, user: newUser, isNew: true }
   }
 
+  function loginEmpleadaEmail(email, password, sheetData) {
+    const creds = loadStorage(STORAGE_KEYS.emailCreds, {})
+    const emailLow = email.toLowerCase()
+    const perfil = sheetData.find(e => e.email?.toLowerCase() === emailLow)
+    if (!perfil) return { ok: false, error: 'No encontramos tu perfil. ¿Completaste el formulario?' }
+    if (!creds[emailLow]) return { ok: false, needsRegister: true }
+    if (creds[emailLow] !== password) return { ok: false, error: 'Contraseña incorrecta' }
+    const existingUser = users.find(u => u.email?.toLowerCase() === emailLow)
+    if (existingUser) { setUser(existingUser); return { ok: true, user: existingUser } }
+    const newUser = { id: `u_${Date.now()}`, email, nombre: perfil.nombre, foto: perfil.foto || null, tipo: 'empleada', password: null, verificada: false, createdAt: new Date().toISOString().split('T')[0] }
+    setUsers(prev => [...prev, newUser])
+    setUser(newUser)
+    return { ok: true, user: newUser }
+  }
+
+  function registerEmpleadaPassword(email, password, sheetData) {
+    const emailLow = email.toLowerCase()
+    const perfil = sheetData.find(e => e.email?.toLowerCase() === emailLow)
+    if (!perfil) return { ok: false, error: 'No encontramos tu perfil. ¿Completaste el formulario?' }
+    const creds = loadStorage(STORAGE_KEYS.emailCreds, {})
+    creds[emailLow] = password
+    saveStorage(STORAGE_KEYS.emailCreds, creds)
+    const existingUser = users.find(u => u.email?.toLowerCase() === emailLow)
+    if (existingUser) { setUser(existingUser); return { ok: true, user: existingUser } }
+    const newUser = { id: `u_${Date.now()}`, email, nombre: perfil.nombre, foto: perfil.foto || null, tipo: 'empleada', password: null, verificada: false, createdAt: new Date().toISOString().split('T')[0] }
+    setUsers(prev => [...prev, newUser])
+    setUser(newUser)
+    return { ok: true, user: newUser }
+  }
+
   function updateProfile(updates) {
     const updatedUser = { ...user, ...updates }
     setUser(updatedUser)
@@ -154,7 +185,7 @@ export function AppProvider({ children }) {
   const unreadCount = mensajes.filter(m => m.toId === user?.id && !m.read).length
 
   return (
-    <AppContext.Provider value={{ user, users, empleadas, sheetEmpleadas, mensajes, unreadCount, favorites, login, loginWithGoogle, logout, register, updateProfile, sendMessage, markRead, toggleFavorite }}>
+    <AppContext.Provider value={{ user, users, empleadas, sheetEmpleadas, mensajes, unreadCount, favorites, login, loginWithGoogle, loginEmpleadaEmail, registerEmpleadaPassword, logout, register, updateProfile, sendMessage, markRead, toggleFavorite }}>
       {children}
     </AppContext.Provider>
   )
