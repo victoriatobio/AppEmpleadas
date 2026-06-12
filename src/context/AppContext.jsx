@@ -10,6 +10,7 @@ const STORAGE_KEYS = {
   favorites: 'kasei_favorites',
   emailCreds: 'kasei_email_creds',
   sheetEdits: 'kasei_sheet_edits',
+  sheetCache: 'kasei_sheet_cache',
 }
 
 function loadStorage(key, fallback) {
@@ -47,7 +48,14 @@ export function AppProvider({ children }) {
     saveStorage(STORAGE_KEYS.users, merged)
     return merged
   })
-  const [sheetEmpleadas, setSheetEmpleadas] = useState([])
+  const [sheetEmpleadas, setSheetEmpleadas] = useState(() => {
+    const cached = loadStorage(STORAGE_KEYS.sheetCache, [])
+    const edits = loadStorage(STORAGE_KEYS.sheetEdits, {})
+    return cached.map(e => {
+      const saved = edits[e.email?.toLowerCase()]
+      return saved ? { ...e, ...saved } : e
+    })
+  })
   const [sheetEdits, setSheetEdits] = useState(() => loadStorage(STORAGE_KEYS.sheetEdits, {}))
   const [mensajes, setMensajes] = useState(() => loadStorage(STORAGE_KEYS.mensajes, initialMensajes))
   const [favorites, setFavorites] = useState(() => loadStorage(STORAGE_KEYS.favorites, []))
@@ -58,6 +66,7 @@ export function AppProvider({ children }) {
       .then(r => r.json())
       .then(data => {
         const arr = Array.isArray(data) ? data : []
+        saveStorage(STORAGE_KEYS.sheetCache, arr)
         const edits = loadStorage(STORAGE_KEYS.sheetEdits, {})
         setSheetEmpleadas(arr.map(e => {
           const saved = edits[e.email?.toLowerCase()]
