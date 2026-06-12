@@ -7,7 +7,7 @@ function MascotImg({ src, alt }) {
     <img
       src={src}
       alt={alt}
-      className="w-full max-w-[120px] mx-auto drop-shadow-md select-none"
+      className="h-28 w-auto mx-auto drop-shadow-md select-none"
       draggable={false}
     />
   )
